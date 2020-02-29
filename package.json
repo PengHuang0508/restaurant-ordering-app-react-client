@@ -1,5 +1,5 @@
 {
-  "name": "reacto-client",
+  "name": "reacto-guest",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
