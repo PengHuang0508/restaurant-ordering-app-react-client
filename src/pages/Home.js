@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getMenuData } from '../redux/actions/menuActions';
+import { getMenu } from '../redux/actions/menuActions';
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -10,8 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import Switch from '@material-ui/core/Switch';
 import Grid from '@material-ui/core/Grid';
 // Components
-import MenuList from '../components/menu/MenuList';
-import MenuCard from '../components/menu/MenuCard';
+import MenuList from '../components/Menu/MenuList';
+import MenuCard from '../components/Menu/MenuCard';
 // File
 import headerBg from '../images/homeHeaderBg.jpg';
 
@@ -27,19 +27,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     color: 'rgb(255,255,255)',
-    padding: theme.spacing(8, 0, 6)
-  }
+    padding: theme.spacing(8, 0, 6),
+  },
 }));
 
 const Home = () => {
   const classes = useStyles();
-  const { menuData } = useSelector((state) => ({
-    menuData: state.menu.menuData
-  }));
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMenuData());
+    dispatch(getMenu());
   }, [dispatch]);
 
   const [toggle, setToggle] = useState(false);
@@ -48,16 +45,10 @@ const Home = () => {
     setToggle(event.target.checked);
   };
 
-  let menuMarkup = menuData.map((category) =>
-    toggle ? (
-      <MenuCard key={category.categoryId} category={category} />
-    ) : (
-      <MenuList key={category.categoryId} category={category} />
-    )
-  );
+  let menuMarkup = toggle ? <MenuList /> : <MenuCard />;
+
   return (
     <React.Fragment>
-      <CssBaseline />
       <main>
         <div className={classes.headerContainer}>
           <Container maxWidth='sm'>
@@ -89,31 +80,6 @@ const Home = () => {
       </main>
     </React.Fragment>
   );
-  // return (
-  //   <Container className={classes.menuContainer} disableGutters>
-  //     <Typography component='div' className={classes.toggleContainer}>
-  //       {' '}
-  //       <Grid
-  //         component='label'
-  //         container
-  //         alignItems='center'
-  //         justify='flex-end'
-  //         spacing={1}
-  //       >
-  //         <Grid item>List View</Grid>
-  //         <Grid item>
-  //           <Switch
-  //             checked={toggle}
-  //             onChange={handleChange}
-  //             value='toggleView'
-  //           />
-  //         </Grid>
-  //         <Grid item>Photo View</Grid>
-  //       </Grid>
-  //     </Typography>
-  //     {menuMarkup}
-  //   </Container>
-  // );
 };
 
 export default Home;

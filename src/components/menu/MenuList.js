@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -8,26 +9,32 @@ import MenuListItem from './MenuListItem';
 
 const useStyles = makeStyles((theme) => ({
   panelContainer: {
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
 }));
 
-const MenuList = (props) => {
+const MenuList = () => {
   const classes = useStyles();
 
-  const {
-    category: { categoryId, itemList }
-  } = props;
-
-  let itemPanel = itemList.map((item, i) => (
-    <MenuListItem key={i} item={item} />
-  ));
+  const { menu } = useSelector((state) => ({
+    menu: state.menu.menu,
+  }));
 
   return (
-    <Container className={classes.panelContainer}>
-      <Typography>{categoryId}</Typography>
-      {itemPanel}
-    </Container>
+    <div>
+      {menu.map((category) => (
+        <Container className={classes.panelContainer}>
+          <Typography>{category.settings.name}</Typography>
+          {category.itemList.map((item) => (
+            <MenuListItem
+              key={`MenuList-MenuListItem-${item.itemId}`}
+              item={item}
+            />
+          ))}
+        </Container>
+      ))}
+    </div>
   );
 };
+
 export default MenuList;

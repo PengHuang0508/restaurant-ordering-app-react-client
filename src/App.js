@@ -3,7 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
 } from 'react-router-dom';
 // Redux
 import { Provider } from 'react-redux';
@@ -15,10 +15,11 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import Home from './pages/Home';
 import Testing from './pages/Testing';
 // Components
-import Navbar from './components/layout/NavBar';
+import Navbar from './components/Navbars/NavBar';
+import NavCart from './components/Navbars/NavCart';
 // Files
 import './App.css';
-import muiTheme from './util/theme';
+import muiTheme from './utils/theme';
 
 const theme = createMuiTheme(muiTheme);
 
@@ -39,6 +40,7 @@ const App = () => {
               <Redirect to='/' />
             </Route>
           </Switch>
+          <NavCart />
         </Router>
       </MuiThemeProvider>
     </Provider>

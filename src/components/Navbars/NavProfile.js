@@ -15,7 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 //import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 
 const styles = (theme) => ({
-  paper: {}
+  paper: {},
 });
 
 const NavProfile = (props) => {
@@ -44,8 +44,8 @@ const NavProfile = (props) => {
     user: {
       credentials: { handle, role },
       loading,
-      authenticated
-    }
+      authenticated,
+    },
   } = props;
 
   let profileMarkup = !loading ? (
@@ -108,17 +108,17 @@ const NavProfile = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user
+  user: state.user,
 });
 
 const mapActionsToProps = {
-  logoutUser
+  logoutUser,
 };
 
 NavProfile.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default connect(

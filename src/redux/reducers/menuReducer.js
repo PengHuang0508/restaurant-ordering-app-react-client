@@ -1,28 +1,47 @@
-import { SET_MENU, SET_ITEM, LOADING_MENU } from '../types';
+import {
+  LOADING_MENU_REQUEST,
+  LOADING_MENU_FAILURE,
+  LOADING_MENU_SUCCESS,
+  SET_MENU,
+  SET_MENU_ITEM,
+} from '../types';
 
 const initialState = {
-  menuData: [],
-  itemData: [],
-  loading: false
+  menu: [],
+  menuItem: {},
+  loading: false,
+  errors: null,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
+    case LOADING_MENU_REQUEST:
+      return {
+        ...state,
+        errors: null,
+        loading: true,
+      };
+    case LOADING_MENU_SUCCESS:
+      return {
+        ...state,
+        errors: null,
+        loading: false,
+      };
+    case LOADING_MENU_FAILURE:
+      return {
+        ...state,
+        errors: action.payload,
+        loading: false,
+      };
     case SET_MENU:
       return {
         ...state,
-        menuData: action.payload,
-        loading: false
+        menu: action.payload,
       };
-    case SET_ITEM:
-      return {
-        loading: false,
-        ...action.payload
-      };
-    case LOADING_MENU:
+    case SET_MENU_ITEM:
       return {
         ...state,
-        loading: true
+        menuItem: action.payload,
       };
     default:
       return state;

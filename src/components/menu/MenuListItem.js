@@ -15,18 +15,18 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     flexBasis: '50%',
-    flexShrink: 0
+    flexShrink: 0,
   },
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary
-  }
+    color: theme.palette.text.secondary,
+  },
 }));
 
 const MenuListItem = (props) => {
   const classes = useStyles();
   const {
-    item: { name, description, price }
+    item: { name, description, price },
   } = props;
 
   const [expanded, setExpanded] = useState(false);

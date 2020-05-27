@@ -1,20 +1,20 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
-import userReducer from './reducers/userReducer';
 import menuReducer from './reducers/menuReducer';
-import dataReducer from './reducers/dataReducer';
 import uiReducer from './reducers/uiReducer';
+import userReducer from './reducers/userReducer';
+import orderReducer from './reducers/orderReducer';
 
 const initialState = {};
 
 const middleware = [thunk];
 
 const reducers = combineReducers({
-  user: userReducer,
   menu: menuReducer,
-  data: dataReducer,
-  ui: uiReducer
+  order: orderReducer,
+  ui: uiReducer,
+  user: userReducer,
 });
 
 const store = createStore(

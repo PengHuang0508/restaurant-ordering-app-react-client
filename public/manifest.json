@@ -3,9 +3,9 @@
   "name": "Reacto App Guest Portal",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "logo.png",
       "type": "image/png",
-      "sizes": "800x800"
+      "sizes": "500x500"
     }
   ],
   "start_url": ".",

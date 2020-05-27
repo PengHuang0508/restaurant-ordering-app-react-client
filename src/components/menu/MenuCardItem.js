@@ -1,90 +1,225 @@
-import React from 'react';
+import React, { useState } from 'react';
+import clsx from 'clsx';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { AddToCart } from '../../redux/actions/orderActions';
 // MUI
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
+import Badge from '@material-ui/core/Badge';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Collapse from '@material-ui/core/Collapse';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-// Component
-//import MenuDetail from './MenuDetail';
+import { makeStyles } from '@material-ui/core/styles';
+// Icons
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
+import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 
 const useStyles = makeStyles((theme) => ({
-  card: {
+  itemCard: {
     height: '100%',
+  },
+  itemCardMedia: {
+    height: 200,
+    width: 200,
+    margin: 'auto',
+  },
+  itemCardHeader: {
+    paddingBottom: 0,
+  },
+  itemCardDescription: {
+    paddingTop: theme.spacing(1),
+  },
+  itemCardAction: {
+    marginBottom: theme.spacing(1),
+  },
+  cartItemBadge: {
+    marginLeft: theme.spacing(1),
+  },
+  itemCardButton: {
+    marginLeft: 'auto',
+  },
+  expandIcon: {
+    transform: 'rotate(0deg)',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandIconOpen: {
+    transform: 'rotate(180deg)',
+  },
+  itemCardCustomize: {
+    alignItems: 'flex-start',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'space-around',
   },
-  cardMedia: {
-    paddingTop: '56.25%' // 16:9
+  itemInstruction: {
+    width: '100%',
   },
-  cardContent: {
-    flexGrow: 1
-  }
+  itemCardCustomizeButton: {
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
 }));
 
+// TODO: add anchors
+// TODO: for mobile, top right corner show last category(anchor for quick scroll)
+// TODO: add snack bars
 const MenuItem = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const {
-    item: { name, description, price, thumbnailUrl }
+    itemData: { itemId, name, description, price, thumbnailUrl },
   } = props;
+  const [expanded, setExpanded] = useState(false);
+  const [counter, setCounter] = useState(0);
+  const initialState = {
+    itemId,
+    name,
+    price,
+    thumbnailUrl,
+    quantity: 1,
+    instructions: '',
+  };
+  const [itemToBeAdded, setItemToBeAdded] = useState(initialState);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+  const handleEdit = (target, value) => {
+    setItemToBeAdded({ ...itemToBeAdded, [target]: value });
+  };
+  const handleAddToCart = () => {
+    dispatch(AddToCart(itemToBeAdded));
+    setCounter(counter + itemToBeAdded.quantity);
+    setExpanded(false);
+    setItemToBeAdded(initialState);
+  };
 
   return (
-    <Grid item xs={12} sm={4} md={3}>
-      <Card className={classes.card}>
+    <Grid item xs={12} sm={6} md={4}>
+      <Card className={classes.itemCard}>
         <CardMedia
-          className={classes.cardMedia}
+          className={classes.itemCardMedia}
           image={thumbnailUrl}
-          title={`${name} thumbnail`}
+          title={name}
         />
-        <CardContent className={classes.cardContent}>
-          <Typography gutterBottom variant='h5' component='h2'>
-            {name}
-          </Typography>
-          <Typography>${price}</Typography>
-          <Typography>{description}</Typography>
-        </CardContent>
-        <CardActions>
-          <Button size='small' color='primary'>
-            View
-          </Button>
-          <Button size='small' color='primary'>
-            Add
+        <CardHeader
+          className={clsx(classes.itemCardHeader, classes.itemCardBackground)}
+          title={name}
+          subheader={`$${price}`}
+        ></CardHeader>
+
+        <Collapse in={!expanded} timeout='auto' unmountOnExit>
+          <CardContent
+            className={clsx(
+              classes.itemCardDescription,
+              classes.itemCardBackground
+            )}
+          >
+            <Typography variant='body2' color='textSecondary' component='p'>
+              {description}
+            </Typography>
+          </CardContent>
+        </Collapse>
+        <CardActions className={classes.itemCardAction} disableSpacing>
+          {counter > 0 && (
+            <Badge
+              badgeContent={counter}
+              className={classes.cartItemBadge}
+              color='primary'
+            >
+              <ShoppingCartRoundedIcon />
+            </Badge>
+          )}
+          <Button
+            variant='contained'
+            color={expanded ? 'secondary' : 'primary'}
+            endIcon={
+              <ExpandLessRoundedIcon
+                className={clsx(classes.expandIcon, {
+                  [classes.expandIconOpen]: expanded,
+                })}
+              />
+            }
+            aria-expanded={expanded}
+            aria-label='add to cart'
+            className={classes.itemCardButton}
+            onClick={handleExpandClick}
+          >
+            Customize
           </Button>
         </CardActions>
+        <Collapse in={expanded} timeout='auto' unmountOnExit>
+          <ClickAwayListener
+            mouseEvent='onMouseDown'
+            touchEvent='onTouchStart'
+            onClickAway={handleExpandClick}
+          >
+            <CardActions className={classes.itemCardCustomize} disableSpacing>
+              <TextField
+                defaultValue={itemToBeAdded.instruction}
+                fullWidth
+                label='Instructions'
+                multiline
+                rows={5}
+                variant='outlined'
+                onChange={(e) => handleEdit('instructions', e.target.value)}
+                value={itemToBeAdded.instructions}
+              />
+              <div className={classes.itemCardCustomizeButton}>
+                <div className={classes.quantityCounter}>
+                  <IconButton
+                    aria-label='decrease-item-quantity'
+                    onClick={() => {
+                      handleEdit(
+                        'quantity',
+                        Math.max(itemToBeAdded.quantity - 1, 1)
+                      );
+                    }}
+                  >
+                    <RemoveRoundedIcon />
+                  </IconButton>
+                  <Typography variant='inherit'>
+                    {itemToBeAdded.quantity}
+                  </Typography>
+                  <IconButton
+                    aria-label='increase-item-quantity'
+                    onClick={() => {
+                      handleEdit('quantity', itemToBeAdded.quantity + 1);
+                    }}
+                  >
+                    <AddRoundedIcon />
+                  </IconButton>
+                </div>
+                <div>
+                  <Button color='secondary' onClick={handleExpandClick}>
+                    Cancel
+                  </Button>
+                  <Button color='primary' onClick={handleAddToCart}>
+                    Add
+                  </Button>
+                </div>
+              </div>
+            </CardActions>
+          </ClickAwayListener>
+        </Collapse>
       </Card>
     </Grid>
   );
-  // return (
-  //   <Grid item sm={3} xs={6}>
-  //     <Card className={classes.root}>
-  //       <CardActionArea>
-  //         <CardMedia
-  //           className={classes.image}
-  //           image={thumbnailUrl}
-  //           title={name}
-  //         />
-  //         <CardContent>
-  //           <Typography gutterBottom variant='h5' component='h2'>
-  //             {name}
-  //           </Typography>
-  //           <Typography variant='body2' color='textSecondary' component='p'>
-  //             ${price}
-  //           </Typography>
-  //         </CardContent>
-  //       </CardActionArea>
-  //       <CardActions>
-  //         <CardContent>
-  //           <Button size='small' color='primary'>
-  //             Learn More
-  //           </Button>
-  //         </CardContent>
-  //       </CardActions>
-  //     </Card>
-  //   </Grid>
-  // );
 };
 
 export default MenuItem;
