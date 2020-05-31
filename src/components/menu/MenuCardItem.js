@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 // Redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AddToCart } from '../../redux/actions/orderActions';
 // MUI
 import Badge from '@material-ui/core/Badge';
@@ -11,7 +11,6 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Collapse from '@material-ui/core/Collapse';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
@@ -42,10 +41,11 @@ const useStyles = makeStyles((theme) => ({
   itemCardAction: {
     marginBottom: theme.spacing(1),
   },
-  cartItemBadge: {
+  itemCardActionBadge: {
     marginLeft: theme.spacing(1),
   },
-  itemCardButton: {
+  itemCardActionButton: {
+    margin: theme.spacing(0, 1),
     marginLeft: 'auto',
   },
   expandIcon: {
@@ -77,7 +77,8 @@ const useStyles = makeStyles((theme) => ({
 
 // TODO: add anchors
 // TODO: for mobile, top right corner show last category(anchor for quick scroll)
-// TODO: add snack bars
+// TODO: add snack bars (after add to cart)
+// TODO: clicked away listener?
 const MenuItem = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -139,14 +140,16 @@ const MenuItem = (props) => {
           {counter > 0 && (
             <Badge
               badgeContent={counter}
-              className={classes.cartItemBadge}
+              className={classes.itemCardActionBadge}
               color='primary'
             >
               <ShoppingCartRoundedIcon />
             </Badge>
           )}
           <Button
-            variant='contained'
+            aria-expanded={expanded}
+            aria-label='add to cart'
+            className={classes.itemCardActionButton}
             color={expanded ? 'secondary' : 'primary'}
             endIcon={
               <ExpandLessRoundedIcon
@@ -155,67 +158,57 @@ const MenuItem = (props) => {
                 })}
               />
             }
-            aria-expanded={expanded}
-            aria-label='add to cart'
-            className={classes.itemCardButton}
             onClick={handleExpandClick}
+            variant='contained'
           >
             Customize
           </Button>
+          <Button color='primary' onClick={handleAddToCart} variant='contained'>
+            Add
+          </Button>
         </CardActions>
         <Collapse in={expanded} timeout='auto' unmountOnExit>
-          <ClickAwayListener
-            mouseEvent='onMouseDown'
-            touchEvent='onTouchStart'
-            onClickAway={handleExpandClick}
-          >
-            <CardActions className={classes.itemCardCustomize} disableSpacing>
-              <TextField
-                defaultValue={itemToBeAdded.instruction}
-                fullWidth
-                label='Instructions'
-                multiline
-                rows={5}
-                variant='outlined'
-                onChange={(e) => handleEdit('instructions', e.target.value)}
-                value={itemToBeAdded.instructions}
-              />
-              <div className={classes.itemCardCustomizeButton}>
-                <div className={classes.quantityCounter}>
-                  <IconButton
-                    aria-label='decrease-item-quantity'
-                    onClick={() => {
-                      handleEdit(
-                        'quantity',
-                        Math.max(itemToBeAdded.quantity - 1, 1)
-                      );
-                    }}
-                  >
-                    <RemoveRoundedIcon />
-                  </IconButton>
-                  <Typography variant='inherit'>
-                    {itemToBeAdded.quantity}
-                  </Typography>
-                  <IconButton
-                    aria-label='increase-item-quantity'
-                    onClick={() => {
-                      handleEdit('quantity', itemToBeAdded.quantity + 1);
-                    }}
-                  >
-                    <AddRoundedIcon />
-                  </IconButton>
-                </div>
-                <div>
-                  <Button color='secondary' onClick={handleExpandClick}>
-                    Cancel
-                  </Button>
-                  <Button color='primary' onClick={handleAddToCart}>
-                    Add
-                  </Button>
-                </div>
+          <CardActions className={classes.itemCardCustomize} disableSpacing>
+            <TextField
+              defaultValue={itemToBeAdded.instruction}
+              fullWidth
+              label='Instructions'
+              multiline
+              rows={5}
+              variant='outlined'
+              onChange={(e) => handleEdit('instructions', e.target.value)}
+              value={itemToBeAdded.instructions}
+            />
+            <div className={classes.itemCardCustomizeButton}>
+              <div className={classes.quantityCounter}>
+                <IconButton
+                  aria-label='decrease item quantity'
+                  onClick={() => {
+                    handleEdit(
+                      'quantity',
+                      Math.max(itemToBeAdded.quantity - 1, 1)
+                    );
+                  }}
+                >
+                  <RemoveRoundedIcon />
+                </IconButton>
+                <Typography variant='inherit'>
+                  {itemToBeAdded.quantity}
+                </Typography>
+                <IconButton
+                  aria-label='increase item quantity'
+                  onClick={() => {
+                    handleEdit('quantity', itemToBeAdded.quantity + 1);
+                  }}
+                >
+                  <AddRoundedIcon />
+                </IconButton>
               </div>
-            </CardActions>
-          </ClickAwayListener>
+              <Button color='secondary' onClick={handleExpandClick}>
+                Cancel
+              </Button>
+            </div>
+          </CardActions>
         </Collapse>
       </Card>
     </Grid>
