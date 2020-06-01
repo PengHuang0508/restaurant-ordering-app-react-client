@@ -50,6 +50,7 @@
 //             Signup
 //           </Button> */
 import React from 'react';
+import { useSelector } from 'react-redux';
 // MUI
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -66,6 +67,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -133,6 +135,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
+  const { handle, ordered } = useSelector((state) => ({
+    handle: state.user.handle,
+    ordered: state.order.ordered,
+  }));
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -228,7 +235,7 @@ export default function PrimarySearchAppBar() {
           <Typography className={classes.title} variant='h6' noWrap>
             Material-UI
           </Typography>
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -240,6 +247,10 @@ export default function PrimarySearchAppBar() {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
+          </div> */}
+          <div>
+            {handle && <Typography>Currently signed in as {handle}</Typography>}
+            {/* <Button onClick={() => console.info(ordered)}>CHECK ORDER</Button> */}
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

@@ -23,8 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 const MenuCard = () => {
   const classes = useStyles();
-  const { menu } = useSelector((state) => ({
+  const { menu, cart } = useSelector((state) => ({
     menu: state.menu.menu,
+    cart: state.order.cart,
   }));
 
   return (
@@ -43,6 +44,11 @@ const MenuCard = () => {
               <MenuCardItem
                 key={`MenuCard-MenuCardItem-${item.itemId}`}
                 itemData={item}
+                isInCart={
+                  cart.find((cartItem) => cartItem.itemId === item.itemId)
+                    ? true
+                    : false
+                }
               />
             ))}
           </Grid>

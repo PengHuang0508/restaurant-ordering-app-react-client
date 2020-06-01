@@ -1,50 +1,38 @@
 import React, { useState } from 'react';
 // Redux
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  AddCartItem,
+  RemoveCartItem,
+  DeleteCartItem,
+  SendOrder,
+} from '../../redux/actions/orderActions';
 // MUI
-import AddIcon from '@material-ui/icons/Add';
 import AppBar from '@material-ui/core/AppBar';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
 import Divider from '@material-ui/core/Divider';
-import Fab from '@material-ui/core/Fab';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import MailIcon from '@material-ui/icons/Mail';
-import MenuIcon from '@material-ui/icons/Menu';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import Paper from '@material-ui/core/Paper';
-import SearchIcon from '@material-ui/icons/Search';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-
+import { makeStyles } from '@material-ui/core/styles';
 // Icon
-import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
-import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
+import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 // File
-import { taxRate } from '../../utils/variables.js';
 import carouselImg1 from '../../images/cart-carousel-img-1.jpg';
+import { taxRate } from '../../utils/variables.js';
 
-// TODO: fix price breakdown
-// TODO: cart item count
 const useStyles = makeStyles((theme) => ({
   button: {
     color: '#fff',
@@ -71,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     minHeight: '3rem',
     padding: theme.spacing(0, 2),
+  },
+  cartEmpty: {
+    padding: theme.spacing(1, 2, 0, 2),
   },
   cartItemList: {
     '& li:nth-child(odd)': {
@@ -127,9 +118,6 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
     minWidth: '10rem',
     textAlign: 'right',
-    // display: 'flex',
-    // flexDirection: 'column',
-    // justifyContent: 'space-between',
   },
   cartFooterButton: {
     marginTop: theme.spacing(3),
@@ -137,17 +125,18 @@ const useStyles = makeStyles((theme) => ({
   media: {},
 }));
 
-// TODO: Test on low-end mobile devices, expect 60 FPS
 const NavCart = () => {
   const classes = useStyles();
-  const { cart, GST, PST, subtotal, total } = useSelector((state) => ({
+  const dispatch = useDispatch();
+  const { cart, GST, PST, subtotal, table, total } = useSelector((state) => ({
+    table: state.order.table,
     cart: state.order.cart,
     GST: state.order.GST,
     PST: state.order.PST,
     subtotal: state.order.subtotal,
     total: state.order.total,
   }));
-  const [drawer, toggleDrawer] = useState(true);
+  const [drawer, toggleDrawer] = useState(false);
 
   const handleToggleDrawer = (open) => (event) => {
     if (
@@ -160,22 +149,17 @@ const NavCart = () => {
     toggleDrawer(open);
   };
   const handleDelete = (itemId, instructions) => {
-    console.info('DELETE ITEM');
+    dispatch(DeleteCartItem({ itemId, instructions }));
   };
   const handleDecreaseQuantity = (itemId, instructions) => {
-    console.info('DECREASE QUANTITY');
-    // console.info('id', itemId);
-    // console.info('Ins', instructions);
+    dispatch(RemoveCartItem({ itemId, instructions }));
   };
-  const handleIncreaseQuantity = (itemId, instructions) => {
-    // prepare with the same instruction?
-    console.info('INCREASE QUANTITY');
-    // console.info('id', itemId);
-    // console.info('Ins', instructions);
+  const handleIncreaseQuantity = (itemId, price, instructions) => {
+    dispatch(AddCartItem({ itemId, price, instructions, quantity: 1 }));
   };
 
   const handleSubmitOrder = () => {
-    console.info('SUBMIT ORDER');
+    dispatch(SendOrder(table, cart));
   };
 
   return (
@@ -207,7 +191,8 @@ const NavCart = () => {
             onKeyDown={handleToggleDrawer(false)}
           >
             <div className={classes.cartHeader}>
-              <Typography variant='h6'>Current Order</Typography>
+              <Typography variant='h6'>Current Order ({table})</Typography>
+
               <IconButton
                 aria-label='close cart'
                 className={classes.button}
@@ -219,7 +204,7 @@ const NavCart = () => {
             <Divider />
             <List className={classes.cartItemList} disablePadding>
               {cart.length === 0 ? (
-                <Typography variant='subtitle1'>
+                <Typography className={classes.cartEmpty} variant='subtitle1'>
                   Your cart is currently empty.
                 </Typography>
               ) : (
@@ -284,6 +269,7 @@ const NavCart = () => {
                           onClick={() =>
                             handleIncreaseQuantity(
                               item.itemId,
+                              item.price,
                               item.instructions
                             )
                           }
@@ -304,7 +290,7 @@ const NavCart = () => {
               <div className={classes.cartFooterSummary}>
                 <List disablePadding>
                   <ListItem>
-                    <ListItemText primary='Subtotal:' />
+                    <ListItemText primary='Subtotal: ' />
                     <Typography variant='subtitle1'>
                       ${subtotal.toFixed(2)}
                     </Typography>

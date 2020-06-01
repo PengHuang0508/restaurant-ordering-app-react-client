@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 // Redux
 import { useDispatch } from 'react-redux';
-import { AddToCart } from '../../redux/actions/orderActions';
+import { AddCartItem } from '../../redux/actions/orderActions';
 // MUI
 import Badge from '@material-ui/core/Badge';
 import Button from '@material-ui/core/Button';
@@ -39,10 +39,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
   },
   itemCardAction: {
-    marginBottom: theme.spacing(1),
-  },
-  itemCardActionBadge: {
-    marginLeft: theme.spacing(1),
+    padding: theme.spacing(2),
   },
   itemCardActionButton: {
     margin: theme.spacing(0, 1),
@@ -79,14 +76,15 @@ const useStyles = makeStyles((theme) => ({
 // TODO: for mobile, top right corner show last category(anchor for quick scroll)
 // TODO: add snack bars (after add to cart)
 // TODO: clicked away listener?
+
 const MenuItem = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const {
     itemData: { itemId, name, description, price, thumbnailUrl },
+    isInCart,
   } = props;
   const [expanded, setExpanded] = useState(false);
-  const [counter, setCounter] = useState(0);
   const initialState = {
     itemId,
     name,
@@ -104,8 +102,7 @@ const MenuItem = (props) => {
     setItemToBeAdded({ ...itemToBeAdded, [target]: value });
   };
   const handleAddToCart = () => {
-    dispatch(AddToCart(itemToBeAdded));
-    setCounter(counter + itemToBeAdded.quantity);
+    dispatch(AddCartItem(itemToBeAdded));
     setExpanded(false);
     setItemToBeAdded(initialState);
   };
@@ -137,15 +134,7 @@ const MenuItem = (props) => {
           </CardContent>
         </Collapse>
         <CardActions className={classes.itemCardAction} disableSpacing>
-          {counter > 0 && (
-            <Badge
-              badgeContent={counter}
-              className={classes.itemCardActionBadge}
-              color='primary'
-            >
-              <ShoppingCartRoundedIcon />
-            </Badge>
-          )}
+          {isInCart && <ShoppingCartRoundedIcon color='primary' />}
           <Button
             aria-expanded={expanded}
             aria-label='add to cart'

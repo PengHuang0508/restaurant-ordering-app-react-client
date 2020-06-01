@@ -1,12 +1,14 @@
 import {
   ADD_CART_ITEM,
   REMOVE_CART_ITEM,
+  DELETE_CART_ITEM,
   UPDATE_CART_ITEM,
-  RESET_CART,
-  SEND_ORDER,
+  SEND_ORDER_SUCCESS,
+  SEND_ORDER_FAILURE,
 } from '../types';
 
 import { taxRate } from '../../utils/variables.js';
+import { orders1, orders2 } from '../../utils/orders.js';
 
 // Helper functions
 // To get variable/params from URL
@@ -22,12 +24,10 @@ const getQueryVariable = (variable) => {
   }
   return 'TAKE OUT';
 };
-
 // Round a number to 2 decimals
 const roundToTwo = (num) => {
   return Math.round((num + Number.EPSILON) * 100) / 100;
 };
-
 // Calculate the GST, PST and total
 const priceCalculation = (subtotal) => {
   let priceBreakdown = {
@@ -40,219 +40,25 @@ const priceCalculation = (subtotal) => {
   return priceBreakdown;
 };
 
-// Sample for TESTING
-const sampleCart = [
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions:
-      'Pariatur reprehenderit reprehenderit culpa cillum qui proident cillum consequat aliquip exercitation excepteur veniam laboris. Aute officia est cupidatat proident qui excepteur aliqua exercitation cupidatat aliqua quis minim. Eu id ullamco aliqua aliqua qui eiusmod mollit Lorem enim dolor ullamco excepteur. Nostrud occaecat aliquip ullamco duis et irure veniam laborum in id. Reprehenderit adipisicing sunt fugiat veniam cupidatat velit cupidatat dolor dolore quis et veniam et laborum. Nulla do pariatur mollit ad enim sunt mollit quis cupidatat culpa. Est non ut et fugiat. Dolore amet irure quis exercitation excepteur laborum. Amet officia aliqua pariatur Lorem ex elit.',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'NKoLGHPjy9gCGj5UtJao',
-    name: 'Grilled Salmon',
-    price: 10.99,
-    quantity: 2,
-    instructions: '',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Esse adipisicing irure eiusmod sunt exercitation.',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-  {
-    itemId: 'mi7VEjDMyhjLmbbGa0WT',
-    name: 'Bow-Tie Salad with Tuna',
-    price: 13.99,
-    quantity: 1,
-    instructions: 'Extra spicy',
-    thumbnailUrl:
-      'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  },
-];
-const initialState = {
-  table: 'A1',
-  cart: sampleCart,
-  orderedItem: [],
-  subtotal: 35.97,
-  GST: 1.8,
-  PST: 2.52,
-  total: 40.29,
-};
-
 // const initialState = {
-//   table: getQueryVariable('table'),
-//   cart: [],
+//   table: 'A1',
+//   cart: orders2,
 //   orderedItem: [],
-//   subtotal: 0,
-//   GST: 0,
-//   PST: 0,
-//   total: 0,
+//   subtotal: 35.97,
+//   GST: 1.8,
+//   PST: 2.52,
+//   total: 40.29,
 // };
+
+const initialState = {
+  table: getQueryVariable('table'),
+  cart: [],
+  ordered: {},
+  subtotal: 0,
+  GST: 0,
+  PST: 0,
+  total: 0,
+};
 
 // TODO: Delete later
 /**
@@ -275,25 +81,24 @@ const initialState = {
 //     'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.png?alt=media',
 // },
 export default function (state = initialState, action) {
+  let itemData, newSubtotal, newPriceBreakdown;
   switch (action.type) {
     case ADD_CART_ITEM:
-      const itemData = action.data;
-
-      let isSameCartItem = state.cart.find(
+      itemData = action.data;
+      let itemToAdd = state.cart.find(
         (cartItem) =>
           cartItem.itemId === itemData.itemId &&
           cartItem.instructions === itemData.instructions
       );
       // If it's the new item with same instructions, quantity increase by 1; Otherwise, add new item to cart
-      isSameCartItem
-        ? (isSameCartItem.quantity += 1)
+      itemToAdd
+        ? (itemToAdd.quantity += itemData.quantity)
         : state.cart.push(itemData);
-
       // Recalculate the price breakdown
-      let newSubtotal = roundToTwo(
+      newSubtotal = roundToTwo(
         state.subtotal + itemData.price * itemData.quantity
       );
-      let newPriceBreakdown = priceCalculation(newSubtotal);
+      newPriceBreakdown = priceCalculation(newSubtotal);
 
       return {
         ...state,
@@ -303,22 +108,65 @@ export default function (state = initialState, action) {
         total: newPriceBreakdown.total,
       };
     case REMOVE_CART_ITEM:
-      const itemId = action.data;
-      let itemToRemove = state.addedItems.find(
-        (item) => itemId === item.itemId
+      itemData = action.data;
+      let itemToRemove = state.cart.find(
+        (cartItem) =>
+          cartItem.itemId === itemData.itemId &&
+          cartItem.instructions === itemData.instructions
       );
-      let newCart = state.cart.filter((item) => itemId !== item.itemId);
-      let newTotal = state.total - itemToRemove.price * itemToRemove.quantity;
+      itemToRemove.quantity > 1
+        ? (itemToRemove.quantity -= 1)
+        : (state.cart = state.cart.filter(
+            (cartItem) =>
+              cartItem.itemId !== itemData.itemId ||
+              cartItem.instructions !== itemData.instructions
+          ));
+      newSubtotal = roundToTwo(state.subtotal - itemToRemove.price);
+      newPriceBreakdown = priceCalculation(newSubtotal);
 
       return {
         ...state,
-        cart: newCart,
-        total: newTotal,
+        subtotal: newSubtotal,
+        GST: newPriceBreakdown.GST,
+        PST: newPriceBreakdown.PST,
+        total: newPriceBreakdown.total,
+      };
+    case DELETE_CART_ITEM:
+      itemData = action.data;
+      let itemToDelete = state.cart.find(
+        (cartItem) =>
+          cartItem.itemId === itemData.itemId &&
+          cartItem.instructions === itemData.instructions
+      );
+
+      state.cart = state.cart.filter(
+        (cartItem) =>
+          cartItem.itemId !== itemData.itemId ||
+          cartItem.instructions !== itemData.instructions
+      );
+      newSubtotal = roundToTwo(
+        state.subtotal - itemToDelete.price * itemToDelete.quantity
+      );
+      newPriceBreakdown = priceCalculation(newSubtotal);
+
+      return {
+        ...state,
+        subtotal: newSubtotal,
+        GST: newPriceBreakdown.GST,
+        PST: newPriceBreakdown.PST,
+        total: newPriceBreakdown.total,
       };
     case UPDATE_CART_ITEM:
+      return state;
 
-    case RESET_CART:
-      return initialState;
+    case SEND_ORDER_SUCCESS:
+      return {
+        ...state,
+        ordered: state.cart,
+        cart: [],
+      };
+    case SEND_ORDER_FAILURE:
+      return state;
     default:
       return state;
   }
