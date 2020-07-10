@@ -1,6 +1,9 @@
 export default {
   palette: {
-    common: { black: '#000', white: '#fff' },
+    common: {
+      black: '#000',
+      white: '#fff',
+    },
     background: {
       paper: '#fff',
       default: '#fafafa',
@@ -8,8 +11,8 @@ export default {
     },
     primary: {
       light: 'rgba(185, 235, 225, 1)',
-      main: 'rgba(149, 225, 211, 1)',
-      dark: 'rgba(115, 210, 190, 1)',
+      main: 'rgba(115, 210, 190, 1)',
+      dark: 'rgba(90, 180, 150, 1)',
       contrastText: '#fff',
     },
     secondary: {
@@ -38,7 +41,7 @@ export default {
     success: ['#4caf50', '#66bb6a', '#43a047', '#5cb860'],
     info: ['#00acc1', '#26c6da', '#00acc1', '#00d3ee'],
     rose: ['#e91e63', '#ec407a', '#d81b60', '#eb3573'],
-    gray: [
+    grey: [
       '#999',
       '#777',
       '#3C4858',

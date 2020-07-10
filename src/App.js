@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 // Redux
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -12,14 +7,20 @@ import store from './redux/store';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 // Pages
+import Account from './pages/Account';
+import Checkout from './pages/Checkout';
 import Home from './pages/Home';
-import Testing from './pages/Testing';
 // Components
 import Navbar from './components/Navbars/NavBar';
 import NavCart from './components/Navbars/NavCart';
 // Files
-import './App.css';
+import history from './history.js';
 import muiTheme from './utils/theme';
+import './App.css';
+import axios from 'axios';
+
+axios.defaults.baseURL =
+  'https://us-central1-reacto-9f2d5.cloudfunctions.net/api';
 
 const theme = createMuiTheme(muiTheme);
 
@@ -27,20 +28,23 @@ const App = () => {
   return (
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>
-        <Router>
+        <Router history={history}>
           <Navbar />
           <Switch>
             <Route exact path='/'>
               <Home />
+              <NavCart />
             </Route>
-            <Route exact path='/testing'>
-              <Testing />
+            <Route exact path='/account'>
+              <Account />
+            </Route>
+            <Route exact path='/checkout'>
+              <Checkout />
             </Route>
             <Route path='*'>
               <Redirect to='/' />
             </Route>
           </Switch>
-          <NavCart />
         </Router>
       </MuiThemeProvider>
     </Provider>

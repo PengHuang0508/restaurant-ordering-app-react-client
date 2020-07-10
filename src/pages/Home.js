@@ -1,30 +1,27 @@
 import React, { useEffect } from 'react';
 // Redux
-import { useDispatch } from 'react-redux';
-import { guestLogin } from '../redux/actions/userActions';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMenu } from '../redux/actions/menuActions';
+import { getDineInOrder } from '../redux/actions/orderActions';
 // MUI
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-// import Switch from '@material-ui/core/Switch';
 // Components
-// import MenuList from '../components/Menu/MenuList';
 import MenuCard from '../components/Menu/MenuCard';
-// File
-import headerBg from '../images/homeHeaderBg.jpg';
+// Files
+import headerBg from '../images/homeHeaderBackground.jpg';
 
 const useStyles = makeStyles((theme) => ({
   headerContainer: {
-    //backgroundColor: theme.palette.background.paper,
-    backgroundImage: `linear-gradient( rgba(0,0,0,0.4), rgba(0, 0, 0, 0.4) ),url(${headerBg})`,
-    backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'dark'
         ? theme.palette.grey[900]
         : theme.palette.grey[50],
-    backgroundSize: 'cover',
+    backgroundImage: `linear-gradient( rgba(0,0,0,0.4), rgba(0, 0, 0, 0.4) ),url(${headerBg})`,
     backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
     color: 'rgb(255,255,255)',
     padding: theme.spacing(10, 0, 10, 0),
   },
@@ -40,19 +37,17 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { table, orderId } = useSelector((state) => ({
+    table: state.order.table,
+    orderId: state.order.order.orderId,
+  }));
 
   useEffect(() => {
-    dispatch(guestLogin());
     dispatch(getMenu());
-  }, [dispatch]);
-
-  // // Toggle menu views
-  // const [toggle, setToggle] = useState(false);
-  // let menuMarkup = toggle ? <MenuList /> : <MenuCard />;
-
-  // const handleChange = (event) => {
-  //   setToggle(event.target.checked);
-  // };
+    if (table && orderId) {
+      dispatch(getDineInOrder(orderId));
+    }
+  }, [dispatch, table, orderId]);
 
   return (
     <React.Fragment>
@@ -74,19 +69,6 @@ const Home = () => {
             >
               An oasis of pleasure.
             </Typography>
-            {/* <div>
-              <Grid container spacing={2} alignItems='center' justify='center'>
-                <Grid item>List View</Grid>
-                <Grid item>
-                  <Switch
-                    checked={toggle}
-                    onChange={handleChange}
-                    value='toggleView'
-                  />
-                </Grid>
-                <Grid item>Photo View</Grid>
-              </Grid>
-            </div> */}
           </Container>
         </div>
         <MenuCard />

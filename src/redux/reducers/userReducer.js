@@ -1,16 +1,14 @@
-import {
-  SET_USER,
-  SET_USER_GUEST,
-  SET_AUTHENTICATED,
-  SET_UNAUTHENTICATED,
-  LOADING_USER,
-} from '../types';
+import { SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED } from '../types';
 
 const initialState = {
-  loading: false,
   authenticated: false,
-  handle: '',
-  notifications: [],
+  anonymous: false,
+  credentials: {
+    handle: '',
+    contact: {},
+    email: '',
+  },
+  orders: [],
 };
 
 export default function (state = initialState, action) {
@@ -25,22 +23,10 @@ export default function (state = initialState, action) {
     case SET_USER:
       return {
         ...state,
-        loading: false,
         authenticated: true,
         ...action.payload,
       };
-    case SET_USER_GUEST:
-      return {
-        ...state,
-        loading: false,
-        authenticated: true,
-        handle: 'Guest',
-      };
-    case LOADING_USER:
-      return {
-        ...state,
-        loading: true,
-      };
+
     default:
       return state;
   }

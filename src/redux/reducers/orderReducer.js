@@ -1,169 +1,167 @@
 import {
   ADD_CART_ITEM,
-  REMOVE_CART_ITEM,
   DELETE_CART_ITEM,
-  UPDATE_CART_ITEM,
-  SEND_ORDER_SUCCESS,
+  REMOVE_CART_ITEM,
   SEND_ORDER_FAILURE,
+  SEND_ORDER_SUCCESS,
+  SET_ORDER,
+  SET_ORDER_DINE_IN,
 } from '../types';
+import { taxRate } from '../../utils/variables';
+import { getQueryVariable } from '../../utils/helpers';
 
-import { taxRate } from '../../utils/variables.js';
-import { orders1, orders2 } from '../../utils/orders.js';
-
+/////
 // Helper functions
-// To get variable/params from URL
-// Eg. getQueryVariable("table") retrieves "A1" form "localhost:3000/?table=A1&status=open"
-const getQueryVariable = (variable) => {
-  var query = window.location.search.substring(1);
-  var vars = query.split('&');
-  for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split('=');
-    if (pair[0] == variable) {
-      return pair[1];
-    }
-  }
-  return 'TAKE OUT';
-};
+/////
+
 // Round a number to 2 decimals
 const roundToTwo = (num) => {
   return Math.round((num + Number.EPSILON) * 100) / 100;
 };
-// Calculate the GST, PST and total
+// Calculate the GST and total
 const priceCalculation = (subtotal) => {
   let priceBreakdown = {
     GST: roundToTwo(subtotal * taxRate.GST),
-    PST: roundToTwo(subtotal * taxRate.PST),
   };
 
-  priceBreakdown.total = subtotal + priceBreakdown.GST + priceBreakdown.PST;
+  priceBreakdown.total = subtotal + priceBreakdown.GST;
 
   return priceBreakdown;
 };
 
-// const initialState = {
-//   table: 'A1',
-//   cart: orders2,
-//   orderedItem: [],
-//   subtotal: 35.97,
-//   GST: 1.8,
-//   PST: 2.52,
-//   total: 40.29,
-// };
-
 const initialState = {
+  type: getQueryVariable('table') ? 'DINE-IN' : 'TAKE-OUT',
   table: getQueryVariable('table'),
-  cart: [],
-  ordered: {},
+  cart: {
+    itemList: [],
+    subtotal: 0,
+  },
+  order: {
+    orderId: getQueryVariable('orderId'),
+    status: '',
+    server: '',
+    createdAt: '',
+    itemList: [],
+    subtotal: 0,
+  },
   subtotal: 0,
   GST: 0,
-  PST: 0,
   total: 0,
+  grandTotal: 0,
 };
 
-// TODO: Delete later
-/**
- *   const newOrder = {
-    createdAt: new Date().toISOString(),
-    itemList: req.body.itemList,
-    server: req.user.role < 4 ? req.user.handle : 'Guest',
-    status: req.body.status ? req.body.status : 'OPEN',
-    table: req.body.table,
-    type: req.body.type ? req.body.type : 'DINE-IN',
-  };
- */
-
-// {
-//   itemId: 'mi7VEjDMyhjLmbbGa0WT',
-//   name: 'Bow-Tie Salad with Tuna',
-//   price: 13.99,
-//   quantity: 1,
-//   thumbnailUrl:
-//     'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.png?alt=media',
-// },
 export default function (state = initialState, action) {
-  let itemData, newSubtotal, newPriceBreakdown;
+  let itemData, newCartSubtotal, newSubtotal, newPriceBreakdown;
   switch (action.type) {
     case ADD_CART_ITEM:
       itemData = action.data;
-      let itemToAdd = state.cart.find(
+
+      let itemToAdd = state.cart.itemList.find(
         (cartItem) =>
           cartItem.itemId === itemData.itemId &&
           cartItem.instructions === itemData.instructions
       );
-      // If it's the new item with same instructions, quantity increase by 1; Otherwise, add new item to cart
+      // If there is item with same instruction in cart, increase the quantity by 1; Otherwise, add the new item to cart
       itemToAdd
         ? (itemToAdd.quantity += itemData.quantity)
-        : state.cart.push(itemData);
-      // Recalculate the price breakdown
-      newSubtotal = roundToTwo(
-        state.subtotal + itemData.price * itemData.quantity
+        : state.cart.itemList.push(itemData);
+
+      // Recalculate the bill
+      newCartSubtotal = roundToTwo(
+        state.cart.subtotal + itemData.price * itemData.quantity
       );
+      newSubtotal = newCartSubtotal + state.order.subtotal;
       newPriceBreakdown = priceCalculation(newSubtotal);
+      // set cart subtotal
+      state.cart.subtotal = newCartSubtotal;
 
       return {
         ...state,
         subtotal: newSubtotal,
         GST: newPriceBreakdown.GST,
-        PST: newPriceBreakdown.PST,
         total: newPriceBreakdown.total,
       };
     case REMOVE_CART_ITEM:
       itemData = action.data;
-      let itemToRemove = state.cart.find(
+
+      let itemToRemove = state.cart.itemList.find(
         (cartItem) =>
           cartItem.itemId === itemData.itemId &&
           cartItem.instructions === itemData.instructions
       );
       itemToRemove.quantity > 1
         ? (itemToRemove.quantity -= 1)
-        : (state.cart = state.cart.filter(
+        : (state.cart.itemList = state.cart.itemList.filter(
             (cartItem) =>
               cartItem.itemId !== itemData.itemId ||
               cartItem.instructions !== itemData.instructions
           ));
-      newSubtotal = roundToTwo(state.subtotal - itemToRemove.price);
+
+      newCartSubtotal = roundToTwo(state.cart.subtotal - itemToRemove.price);
+      newSubtotal = newCartSubtotal + state.order.subtotal;
       newPriceBreakdown = priceCalculation(newSubtotal);
+      state.cart.subtotal = newCartSubtotal;
 
       return {
         ...state,
         subtotal: newSubtotal,
         GST: newPriceBreakdown.GST,
-        PST: newPriceBreakdown.PST,
         total: newPriceBreakdown.total,
       };
     case DELETE_CART_ITEM:
       itemData = action.data;
-      let itemToDelete = state.cart.find(
+
+      let itemToDelete = state.cart.itemList.find(
         (cartItem) =>
           cartItem.itemId === itemData.itemId &&
           cartItem.instructions === itemData.instructions
       );
-
-      state.cart = state.cart.filter(
+      state.cart.itemList = state.cart.itemList.filter(
         (cartItem) =>
           cartItem.itemId !== itemData.itemId ||
           cartItem.instructions !== itemData.instructions
       );
-      newSubtotal = roundToTwo(
-        state.subtotal - itemToDelete.price * itemToDelete.quantity
+
+      newCartSubtotal = roundToTwo(
+        state.cart.subtotal - itemToDelete.price * itemToDelete.quantity
       );
+      newSubtotal = newCartSubtotal + state.order.subtotal;
       newPriceBreakdown = priceCalculation(newSubtotal);
+      state.cart.subtotal = newCartSubtotal;
 
       return {
         ...state,
         subtotal: newSubtotal,
         GST: newPriceBreakdown.GST,
-        PST: newPriceBreakdown.PST,
         total: newPriceBreakdown.total,
       };
-    case UPDATE_CART_ITEM:
-      return state;
+    case SET_ORDER_DINE_IN:
+      const orderDetails = action.payload;
 
-    case SEND_ORDER_SUCCESS:
+      newSubtotal = state.cart.subtotal + orderDetails.subtotal;
+      newPriceBreakdown = priceCalculation(newSubtotal);
+
       return {
         ...state,
-        ordered: state.cart,
-        cart: [],
+        order: {
+          createdAt: orderDetails.createdAt,
+          itemList: orderDetails.itemList,
+          orderId: orderDetails.orderId,
+          status: orderDetails.status,
+          subtotal: orderDetails.subtotal,
+          table: orderDetails.table,
+        },
+        subtotal: newSubtotal,
+        GST: newPriceBreakdown.GST,
+        total: newPriceBreakdown.total,
+      };
+    case SEND_ORDER_SUCCESS:
+      return {
+        ...initialState,
+        cart: {
+          itemList: [],
+          subtotal: 0,
+        },
       };
     case SEND_ORDER_FAILURE:
       return state;

@@ -70,8 +70,8 @@ const NavProfile = (props) => {
           <MenuItem component={Link} to='/login' onClick={handleClose}>
             Login
           </MenuItem>
-          <MenuItem component={Link} to='/signup' onClick={handleClose}>
-            Signup
+          <MenuItem component={Link} to='/signUp' onClick={handleClose}>
+            signUp
           </MenuItem>
         </Typography>
       </Paper>
@@ -99,8 +99,8 @@ const NavProfile = (props) => {
         {/* <MenuItem component={Link} to="/login" onClick={handleClose}>
           Login
         </MenuItem>
-        <MenuItem component={Link} to="/signup" onClick={handleClose}>
-          Signup
+        <MenuItem component={Link} to="/signUp" onClick={handleClose}>
+          signUp
         </MenuItem> */}
       </Menu>
     </div>

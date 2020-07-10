@@ -7,13 +7,13 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 // Icons
 import BlurOnRoundedIcon from '@material-ui/icons/BlurOnRounded';
-// Component
+// Components
 import MenuCardItem from './MenuCardItem';
 
 const useStyles = makeStyles((theme) => ({
   menuCardCategoryContainer: {
-    paddingTop: theme.spacing(5),
-    paddingBottom: theme.spacing(5),
+    padding: theme.spacing(5, 2),
+    // paddingBottom: theme.spacing(5),
   },
   menuCardCategoryHeader: {
     color: theme.palette.primary.dark,
@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
 
 const MenuCard = () => {
   const classes = useStyles();
-  const { menu, cart } = useSelector((state) => ({
+  const { menu, cartItemList } = useSelector((state) => ({
     menu: state.menu.menu,
-    cart: state.order.cart,
+    cartItemList: state.order.cart.itemList,
   }));
 
   return (
@@ -45,7 +45,9 @@ const MenuCard = () => {
                 key={`MenuCard-MenuCardItem-${item.itemId}`}
                 itemData={item}
                 isInCart={
-                  cart.find((cartItem) => cartItem.itemId === item.itemId)
+                  cartItemList.find(
+                    (cartItem) => cartItem.itemId === item.itemId
+                  )
                     ? true
                     : false
                 }

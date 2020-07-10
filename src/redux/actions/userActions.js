@@ -1,85 +1,102 @@
 import axios from 'axios';
+import history from '../../history.js';
 import {
-  SET_USER,
-  SET_USER_GUEST,
-  SET_ERRORS,
   CLEAR_ERRORS,
   LOADING_UI,
-  LOADING_USER,
+  LOADING_UI_SUCCESS,
+  SET_AUTHENTICATED,
+  SET_ERRORS,
   SET_UNAUTHENTICATED,
+  SET_USER,
 } from '../types';
-
-import { guestCredentials } from '../../utils/variables.js';
 
 // Helper functions
 const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
+
   localStorage.setItem('FBIdToken', FBIdToken);
   axios.defaults.headers.common['Authorization'] = FBIdToken;
 };
-export const guestLogin = () => (dispatch) => {
-  axios
-    .post('/user/login', guestCredentials)
-    .then((res) => {
-      setAuthorizationHeader(res.data.token);
-      dispatch({ type: SET_USER_GUEST });
-      dispatch({ type: CLEAR_ERRORS });
-    })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.response.data,
-      });
-    });
-};
-export const signupUser = (signupData, history) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
-  axios
-    .post('/signup', signupData)
-    .then((res) => {
-      setAuthorizationHeader(res.data.token);
-      dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
-      history.push('/');
-    })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.response.data,
-      });
-    });
+
+export const setErrors = (errorData) => (dispatch) => {
+  dispatch({ type: SET_ERRORS, payload: errorData });
 };
 
-export const loginUser = (loginData, history) => (dispatch) => {
+export const getGuestData = () => (dispatch) => {
   dispatch({ type: LOADING_UI });
-  axios
-    .post('/login', loginData)
-    .then((res) => {
-      setAuthorizationHeader(res.data.token);
-      dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
-      history.push('/');
-    })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.response.data,
-      });
-    });
-};
 
-export const getUserData = () => (dispatch) => {
-  dispatch({ type: LOADING_USER });
   axios
-    .get('/user')
+    .get('/guest')
     .then((res) => {
       dispatch({ type: SET_USER, payload: res.data });
+      dispatch({ type: LOADING_UI_SUCCESS });
+      history.push('/');
     })
-    .catch((err) => console.log(err));
+    .catch((err) =>
+      dispatch({
+        type: SET_ERRORS,
+        payload: err,
+      })
+    );
 };
 
-export const logoutUser = () => (dispatch) => {
+export const anonymousSignIn = (dispatch) => {
+  // axios.get('/anonymous', anonymousSignIn);
+};
+
+export const anonymousUpgrade = (dispatch) => {
+  // axios.post('/anonymous/upgrade', anonymousUpgrade);
+};
+
+export const signUp = (signUpData, history) => (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
+  dispatch({ type: LOADING_UI });
+
+  axios
+    .post('/guest/signUp', signUpData)
+    .then((res) => {
+      setAuthorizationHeader(res.data.token);
+      dispatch({ type: SET_AUTHENTICATED });
+      dispatch({ type: LOADING_UI_SUCCESS });
+    })
+    .then(() => {
+      dispatch(getGuestData());
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err,
+      });
+    });
+};
+
+export const signIn = (signInData) => (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
+  dispatch({ type: LOADING_UI });
+
+  axios
+    .post('/signIn', signInData)
+    .then((res) => {
+      setAuthorizationHeader(res.data.token);
+      dispatch({ type: SET_AUTHENTICATED });
+      dispatch({ type: LOADING_UI_SUCCESS });
+    })
+    .then(() => {
+      dispatch(getGuestData());
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err,
+      });
+    });
+};
+
+export const signOut = () => (dispatch) => {
   localStorage.removeItem('FBIdToken');
   delete axios.defaults.headers.common['Authorization'];
+
+  axios.post('/signOut').catch((err) => console.log(err));
+
   dispatch({ type: SET_UNAUTHENTICATED });
 };

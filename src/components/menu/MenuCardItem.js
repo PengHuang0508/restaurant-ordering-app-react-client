@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 // Redux
 import { useDispatch } from 'react-redux';
-import { AddCartItem } from '../../redux/actions/orderActions';
+import { addCartItem } from '../../redux/actions/orderActions';
 // MUI
-import Badge from '@material-ui/core/Badge';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -25,21 +24,25 @@ import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 
 const useStyles = makeStyles((theme) => ({
   itemCard: {
+    display: 'flex',
+    flexDirection: 'column',
     height: '100%',
   },
+  itemCardBackground: {},
   itemCardMedia: {
     height: 200,
+    margin: '0 auto',
     width: 200,
-    margin: 'auto',
   },
   itemCardHeader: {
-    paddingBottom: 0,
+    padding: theme.spacing(0, 2),
   },
   itemCardDescription: {
     paddingTop: theme.spacing(1),
   },
   itemCardAction: {
     padding: theme.spacing(2),
+    marginTop: 'auto',
   },
   itemCardActionButton: {
     margin: theme.spacing(0, 1),
@@ -78,12 +81,12 @@ const useStyles = makeStyles((theme) => ({
 // TODO: clicked away listener?
 
 const MenuItem = (props) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
   const {
     itemData: { itemId, name, description, price, thumbnailUrl },
     isInCart,
   } = props;
+  const classes = useStyles();
+  const dispatch = useDispatch();
   const [expanded, setExpanded] = useState(false);
   const initialState = {
     itemId,
@@ -102,7 +105,7 @@ const MenuItem = (props) => {
     setItemToBeAdded({ ...itemToBeAdded, [target]: value });
   };
   const handleAddToCart = () => {
-    dispatch(AddCartItem(itemToBeAdded));
+    dispatch(addCartItem(itemToBeAdded));
     setExpanded(false);
     setItemToBeAdded(initialState);
   };
@@ -119,7 +122,7 @@ const MenuItem = (props) => {
           className={clsx(classes.itemCardHeader, classes.itemCardBackground)}
           title={name}
           subheader={`$${price}`}
-        ></CardHeader>
+        />
 
         <Collapse in={!expanded} timeout='auto' unmountOnExit>
           <CardContent
@@ -169,7 +172,7 @@ const MenuItem = (props) => {
               value={itemToBeAdded.instructions}
             />
             <div className={classes.itemCardCustomizeButton}>
-              <div className={classes.quantityCounter}>
+              <div>
                 <IconButton
                   aria-label='decrease item quantity'
                   onClick={() => {
