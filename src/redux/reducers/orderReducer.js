@@ -4,7 +4,7 @@ import {
   REMOVE_CART_ITEM,
   SEND_ORDER_FAILURE,
   SEND_ORDER_SUCCESS,
-  SET_ORDER,
+  // SET_ORDER,
   SET_ORDER_DINE_IN,
 } from '../types';
 import { taxRate } from '../../utils/variables';
@@ -35,6 +35,7 @@ const initialState = {
   cart: {
     itemList: [],
     subtotal: 0,
+    contact: {},
   },
   order: {
     orderId: getQueryVariable('orderId'),

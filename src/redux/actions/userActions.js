@@ -8,6 +8,7 @@ import {
   SET_ERRORS,
   SET_UNAUTHENTICATED,
   SET_USER,
+  SET_ANONYMOUS,
 } from '../types';
 
 // Helper functions
@@ -30,25 +31,59 @@ export const getGuestData = () => (dispatch) => {
     .then((res) => {
       dispatch({ type: SET_USER, payload: res.data });
       dispatch({ type: LOADING_UI_SUCCESS });
+    })
+    .catch((err) =>
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      })
+    );
+};
+
+export const anonymousSignIn = () => (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
+  dispatch({ type: LOADING_UI });
+
+  axios
+    .get('/anonymous')
+    .then((res) => {
+      setAuthorizationHeader(res.data.token);
+      dispatch({ type: SET_ANONYMOUS });
+      dispatch({ type: LOADING_UI_SUCCESS });
       history.push('/');
     })
     .catch((err) =>
       dispatch({
         type: SET_ERRORS,
-        payload: err,
+        payload: err.response.data,
       })
     );
 };
 
-export const anonymousSignIn = (dispatch) => {
-  // axios.get('/anonymous', anonymousSignIn);
+export const anonymousUpgrade = (signUpData) => (dispatch) => {
+  dispatch({ type: CLEAR_ERRORS });
+  dispatch({ type: LOADING_UI });
+
+  axios
+    .post('/anonymous/upgrade', signUpData)
+    .then((res) => {
+      setAuthorizationHeader(res.data.token);
+      dispatch({ type: SET_AUTHENTICATED });
+      dispatch({ type: LOADING_UI_SUCCESS });
+    })
+    .then(() => {
+      dispatch(getGuestData());
+      history.push('/');
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
 };
 
-export const anonymousUpgrade = (dispatch) => {
-  // axios.post('/anonymous/upgrade', anonymousUpgrade);
-};
-
-export const signUp = (signUpData, history) => (dispatch) => {
+export const signUp = (signUpData) => (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
   dispatch({ type: LOADING_UI });
 
@@ -61,11 +96,12 @@ export const signUp = (signUpData, history) => (dispatch) => {
     })
     .then(() => {
       dispatch(getGuestData());
+      history.push('/');
     })
     .catch((err) => {
       dispatch({
         type: SET_ERRORS,
-        payload: err,
+        payload: err.response.data,
       });
     });
 };
@@ -83,11 +119,12 @@ export const signIn = (signInData) => (dispatch) => {
     })
     .then(() => {
       dispatch(getGuestData());
+      history.push('/');
     })
     .catch((err) => {
       dispatch({
         type: SET_ERRORS,
-        payload: err,
+        payload: err.response.data,
       });
     });
 };

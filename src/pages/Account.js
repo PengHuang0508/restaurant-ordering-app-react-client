@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { anonymousSignIn } from '../redux/actions/userActions';
 import { useLocation } from 'react-router-dom';
 import history from '../history';
 // MUI
@@ -133,6 +134,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Account = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { loading } = useSelector((state) => ({
     loading: state.ui.loading,
   }));
@@ -144,9 +146,6 @@ const Account = () => {
 
   useEffect(() => {
     setIsNewUser(initialState);
-    // return () => {
-    //   cleanup
-    // }
   }, [initialState]);
 
   const handleSwitchTab = (event, newValue) => {
@@ -158,7 +157,7 @@ const Account = () => {
   };
 
   const handleAnonymousSignIn = () => {
-    alert('SIGNING IN ANONYMOUSLY');
+    dispatch(anonymousSignIn());
   };
 
   return (

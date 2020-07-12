@@ -51,28 +51,26 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <main>
-        <div className={classes.headerContainer}>
-          <Container maxWidth='sm'>
-            <Typography
-              className={classes.homeTitle}
-              variant='h3'
-              align='center'
-              gutterBottom
-            >
-              Welcome to Pome'Lona
-            </Typography>
-            <Typography
-              className={classes.homeSubtitle}
-              variant='subtitle1'
-              align='center'
-            >
-              An oasis of pleasure.
-            </Typography>
-          </Container>
-        </div>
-        <MenuCard />
-      </main>
+      <div className={classes.headerContainer}>
+        <Container maxWidth='sm'>
+          <Typography
+            className={classes.homeTitle}
+            variant='h3'
+            align='center'
+            gutterBottom
+          >
+            Welcome to Pome'Lona
+          </Typography>
+          <Typography
+            className={classes.homeSubtitle}
+            variant='subtitle1'
+            align='center'
+          >
+            An oasis of pleasure.
+          </Typography>
+        </Container>
+      </div>
+      <MenuCard />
     </React.Fragment>
   );
 };

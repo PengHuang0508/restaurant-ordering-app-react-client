@@ -1,7 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setErrors, signUp } from '../../redux/actions/userActions';
-import { useInputs } from '../../hooks/useInputs';
+import {
+  setErrors,
+  signUp,
+  anonymousUpgrade,
+} from '../../redux/actions/userActions';
 // MUI
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -15,6 +18,8 @@ import LockRoundedIcon from '@material-ui/icons/LockRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
 import AccessTimeRoundedIcon from '@material-ui/icons/AccessTimeRounded';
+// Hooks
+import { useInputs } from '../../hooks/useInputs';
 // Validators
 import { validateSignUpData } from '../../utils/validators';
 
@@ -53,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { errors, loading } = useSelector((state) => ({
+  const { anonymous, errors, loading } = useSelector((state) => ({
+    anonymous: state.user.anonymous,
     errors: state.ui.errors ? state.ui.errors : '',
     loading: state.ui.loading,
   }));
@@ -66,23 +72,23 @@ const SignUp = () => {
     phoneNumber: '',
   };
   const {
-    inputs: userInput,
-    bind: bindUserInput,
-    reset: resetUserInput,
+    inputs: userInputs,
+    bind: bindUserInputs,
+    reset: resetUserInputs,
   } = useInputs(initialState);
 
   const handleSignUp = (event) => {
     event.preventDefault();
 
     const signUpData = {
-      email: userInput.email,
-      password: userInput.password,
-      confirmPassword: userInput.confirmPassword,
+      email: userInputs.email,
+      password: userInputs.password,
+      confirmPassword: userInputs.confirmPassword,
       contact: {
-        email: userInput.email,
-        firstName: userInput.firstName,
-        lastName: userInput.lastName,
-        phoneNumber: userInput.phoneNumber,
+        email: userInputs.email,
+        firstName: userInputs.firstName,
+        lastName: userInputs.lastName,
+        phoneNumber: userInputs.phoneNumber,
       },
     };
     const { valid, errors } = validateSignUpData(signUpData);
@@ -99,10 +105,12 @@ const SignUp = () => {
         ''
       );
 
-      dispatch(signUp(signUpData));
+      anonymous
+        ? dispatch(anonymousUpgrade(signUpData))
+        : dispatch(signUp(signUpData));
     }
 
-    resetUserInput();
+    resetUserInputs();
   };
 
   return (
@@ -119,9 +127,9 @@ const SignUp = () => {
                 label='Email Address'
                 name='email'
                 required
-                value={userInput.email}
+                value={userInputs.email}
                 variant='outlined'
-                {...bindUserInput}
+                {...bindUserInputs}
               />
             </Grid>
             <Grid item xs={12}>
@@ -134,9 +142,9 @@ const SignUp = () => {
                 name='password'
                 required
                 type='password'
-                value={userInput.password}
+                value={userInputs.password}
                 variant='outlined'
-                {...bindUserInput}
+                {...bindUserInputs}
               />
             </Grid>
             <Grid item xs={12}>
@@ -149,9 +157,9 @@ const SignUp = () => {
                 name='confirmPassword'
                 required
                 type='password'
-                value={userInput.confirmPassword}
+                value={userInputs.confirmPassword}
                 variant='outlined'
-                {...bindUserInput}
+                {...bindUserInputs}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -164,9 +172,9 @@ const SignUp = () => {
                 label='First Name'
                 name='firstName'
                 required
-                value={userInput.firstName}
+                value={userInputs.firstName}
                 variant='outlined'
-                {...bindUserInput}
+                {...bindUserInputs}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -179,9 +187,9 @@ const SignUp = () => {
                 label='Last Name'
                 name='lastName'
                 required
-                value={userInput.lastName}
+                value={userInputs.lastName}
                 variant='outlined'
-                {...bindUserInput}
+                {...bindUserInputs}
               />
             </Grid>
             <Grid item xs={12}>
@@ -192,9 +200,9 @@ const SignUp = () => {
                 label='Phone Number'
                 name='phoneNumber'
                 type='tel'
-                value={userInput.phoneNumber}
+                value={userInputs.phoneNumber}
                 variant='outlined'
-                {...bindUserInput}
+                {...bindUserInputs}
               />
             </Grid>
             <Grid item xs={12}>
@@ -231,7 +239,7 @@ const SignUp = () => {
             disabled={loading}
             startIcon={<LockRoundedIcon />}
           >
-            Sign Up
+            {anonymous ? 'Upgrade' : 'Sign Up'}
           </Button>
         </form>
       </Container>

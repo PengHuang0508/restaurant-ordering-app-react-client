@@ -64,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
 
     [theme.breakpoints.down('xs')]: {
       height: '100vh',
-      overflow: 'hidden',
       width: '100vw',
     },
   },
@@ -93,10 +92,6 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: 'Grenze Gotisch, Segoe UI, Roboto',
     margin: theme.spacing(2),
   },
-  divider: {
-    backgroundColor: theme.palette.common.white,
-    marginBottom: theme.spacing(1),
-  },
   icon: {
     color: theme.palette.common.white,
   },
@@ -122,7 +117,9 @@ const useStyles = makeStyles((theme) => ({
   },
   notFound: {
     backgroundColor: 'rgba(255,255,255,0.75)',
+    color: theme.palette.text.primary,
     padding: theme.spacing(2, 0),
+    textAlign: 'center',
   },
   orderHistory: {
     backgroundColor: 'rgba(255,255,255,0.75)',
@@ -141,6 +138,9 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: theme.palette.common.white,
     },
+  },
+  divider: {
+    backgroundColor: theme.palette.common.white,
   },
   selected: {
     backgroundColor: theme.palette.common.black,
@@ -294,8 +294,8 @@ const ProfileMenu = (props) => {
 
             <Collapse in={open.orderHistory}>
               {Array.isArray(orders) && orders.length > 0 ? (
-                <div className={classes.orderHistory}>
-                  <Table>
+                <div>
+                  <Table className={classes.orderHistory}>
                     <TableHead>
                       <TableRow>
                         <TableCell>Date</TableCell>
@@ -352,30 +352,29 @@ const ProfileMenu = (props) => {
                         ))}
                     </TableBody>
                   </Table>
+                  <div className={classes.buttonContainer}>
+                    {orders.length > 5 && open.viewMore ? (
+                      <Button
+                        className={classes.button}
+                        onClick={() => handleToggle('viewMore')}
+                      >
+                        View less
+                      </Button>
+                    ) : (
+                      <Button
+                        className={classes.button}
+                        onClick={() => handleToggle('viewMore')}
+                      >
+                        View more
+                      </Button>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <Typography className={classes.notFound} variant='subtitle1'>
                   No orders found.
                 </Typography>
               )}
-
-              <div className={classes.buttonContainer}>
-                {orders.length > 5 && open.viewMore ? (
-                  <Button
-                    className={classes.button}
-                    onClick={() => handleToggle('viewMore')}
-                  >
-                    View less
-                  </Button>
-                ) : (
-                  <Button
-                    className={classes.button}
-                    onClick={() => handleToggle('viewMore')}
-                  >
-                    View more
-                  </Button>
-                )}
-              </div>
             </Collapse>
 
             <Divider className={classes.divider} />

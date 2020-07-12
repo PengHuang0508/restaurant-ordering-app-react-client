@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import axios from 'axios';
 // Redux
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -17,7 +18,6 @@ import NavCart from './components/Navbars/NavCart';
 import history from './history.js';
 import muiTheme from './utils/theme';
 import './App.css';
-import axios from 'axios';
 
 axios.defaults.baseURL =
   'https://us-central1-reacto-9f2d5.cloudfunctions.net/api';

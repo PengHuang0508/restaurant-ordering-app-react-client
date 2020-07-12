@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setErrors, signIn } from '../../redux/actions/userActions';
-import { useInput } from '../../hooks/useInput';
 // MUI
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -14,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 // Icons
 import LockRoundedIcon from '@material-ui/icons/LockRounded';
+// Hooks
+import { useInput } from '../../hooks/useInput';
 // Validators
 import { validateSignInData } from '../../utils/validators';
 
@@ -49,7 +50,7 @@ const SignIn = () => {
     errors: state.ui.errors ? state.ui.errors : '',
     loading: state.ui.loading,
   }));
-  const { value: email, bind: bindEmail, reset: resetEmail } = useInput('');
+  const { value: email, bind: bindEmail } = useInput('');
   const {
     value: password,
     bind: bindPassword,

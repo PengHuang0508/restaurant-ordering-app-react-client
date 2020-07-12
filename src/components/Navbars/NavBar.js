@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 // Components
 import AccountMenu from './AccountMenu';
+import AnonymousMenu from './AnonymousMenu';
 import ProfileMenu from './ProfileMenu';
 // Files
 import logo from '../../images/logo.png';
@@ -33,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
   const classes = useStyles();
-  const { authenticated } = useSelector((state) => ({
+  const { anonymous, authenticated } = useSelector((state) => ({
+    anonymous: state.user.anonymous,
     authenticated: state.user.authenticated,
   }));
   const [anchorEl, setAnchorEl] = useState(null);
@@ -72,7 +74,11 @@ const NavBar = () => {
             </IconButton>
             {authenticated ? (
               <Drawer anchor='right' open={open} onClose={handleClose}>
-                <ProfileMenu handleClose={handleClose} />
+                {anonymous ? (
+                  <AnonymousMenu handleClose={handleClose} />
+                ) : (
+                  <ProfileMenu handleClose={handleClose} />
+                )}
               </Drawer>
             ) : (
               <Popover
