@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnonymousMenu = (props) => {
+const GuestMenu = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { handleClose } = props;
@@ -143,7 +143,7 @@ const AnonymousMenu = (props) => {
           </Typography>
           <PermIdentityRoundedIcon fontSize='large' />
           <Typography>
-            Looks like you are currently signed in as an anonymous user.
+            Looks like you are currently signed in as a guest.
           </Typography>
         </div>
       </div>
@@ -183,4 +183,4 @@ const AnonymousMenu = (props) => {
   );
 };
 
-export default AnonymousMenu;
+export default GuestMenu;

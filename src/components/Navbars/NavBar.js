@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import history from '../../history';
 // MUI
 import AppBar from '@material-ui/core/AppBar';
@@ -14,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 // Components
 import AccountMenu from './AccountMenu';
-import AnonymousMenu from './AnonymousMenu';
+import GuestMenu from './GuestMenu';
 import ProfileMenu from './ProfileMenu';
 // Files
 import logo from '../../images/logo.png';
@@ -40,7 +41,11 @@ const NavBar = () => {
   }));
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  let location = useLocation();
 
+  const handleHome = () => {
+    history.push({ pathname: '/', search: location.search });
+  };
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -55,7 +60,7 @@ const NavBar = () => {
           <Avatar
             alt="Pome'Lona"
             aria-label='home'
-            onClick={() => history.push('/')}
+            onClick={handleHome}
             src={logo}
             className={classes.homeButton}
           />
@@ -75,7 +80,7 @@ const NavBar = () => {
             {authenticated ? (
               <Drawer anchor='right' open={open} onClose={handleClose}>
                 {anonymous ? (
-                  <AnonymousMenu handleClose={handleClose} />
+                  <GuestMenu handleClose={handleClose} />
                 ) : (
                   <ProfileMenu handleClose={handleClose} />
                 )}

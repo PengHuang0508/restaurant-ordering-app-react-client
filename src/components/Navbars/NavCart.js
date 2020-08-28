@@ -134,22 +134,22 @@ const NavCart = () => {
     //   history.push('/signIn');
     // }
 
-    // history.push('/checkout');
+    history.push('/checkout');
 
-    console.log({
-      subtotal,
-      itemList: cart.itemList,
-    });
-    dispatch(
-      sendOrder({
-        contact: {
-          firstName: 'Bob',
-          lastName: 'Ross',
-        },
-        subtotal,
-        itemList: cart.itemList,
-      })
-    );
+    // console.log({
+    //   subtotal,
+    //   itemList: cart.itemList,
+    // });
+    // dispatch(
+    //   sendOrder({
+    //     contact: {
+    //       firstName: 'Bob',
+    //       lastName: 'Ross',
+    //     },
+    //     subtotal,
+    //     itemList: cart.itemList,
+    //   })
+    // );
   };
 
   return (

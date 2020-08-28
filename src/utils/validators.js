@@ -2,7 +2,7 @@
 //Helper functions
 /////
 const isEmptyString = (string) => {
-  if (string.trim() === '') return true;
+  if (!string || 0 === string.length) return true;
   else return false;
 };
 
@@ -49,16 +49,12 @@ exports.validateDineInOrderData = (data) => {
   };
 };
 
-exports.validateOrderChanges = (data) => {
+exports.validateContactData = (data) => {
   let errors = {};
 
-  if (data.orderId) {
-    errors.orderId = 'Cannot change orderId';
-  }
-  if (data.status === 'CLOSED') {
-    errors.status =
-      "Please do not change the order status to 'CLOSED' directly. Please close the order properly.";
-  }
+  if (isEmptyString(data.firstName)) errors.firstName = 'Must not be empty';
+  if (isEmptyString(data.lastName)) errors.lastName = 'Must not be empty';
+  if (!isEmail(data.email)) errors.email = 'Must provide valid email address';
 
   return {
     errors,

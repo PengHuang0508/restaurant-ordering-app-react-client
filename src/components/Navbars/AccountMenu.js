@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: '20rem',
     paddingBottom: theme.spacing(2),
     width: '100%',
+
     [theme.breakpoints.down('xs')]: {
       background: theme.palette.background.paper,
       justifyContent: 'center',
@@ -41,10 +42,10 @@ const useStyles = makeStyles((theme) => ({
       minWidth: '15rem',
     },
   },
-  arrowUp: {
+  arrowDown: {
     borderLeft: '10px solid transparent',
     borderRight: '10px solid transparent',
-    borderTop: '10px solid rgb(115, 210, 190)',
+    borderTop: '10px solid rgb(115, 205, 185)',
     height: 0,
     marginLeft: 'auto',
     marginRight: '0.9rem',
@@ -54,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
     padding: theme.spacing(3, 2),
     textAlign: 'center',
+
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2, 3, 0, 3),
     },
@@ -68,6 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonContainer: {
     textAlign: 'center',
+
     [theme.breakpoints.down('xs')]: {
       paddingBottom: theme.spacing(1),
     },
@@ -75,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     height: '100%',
     width: '90%',
+
     [theme.breakpoints.down('xs')]: {
       height: 'auto',
       marginTop: theme.spacing(2),
@@ -88,7 +92,7 @@ const AccountMenu = (props) => {
 
   return (
     <Container className={classes.accountMenu} disableGutters>
-      <div className={classes.arrowUp} onClick={handleClose} />
+      <div className={classes.arrowDown} onClick={handleClose} />
       <Grid className={classes.benefitContainer} container>
         <Grid className={classes.benefitText} item xs={12}>
           <Typography variant='caption'>
@@ -100,7 +104,7 @@ const AccountMenu = (props) => {
           <AddShoppingCartRoundedIcon fontSize='small' />
         </Grid>
         <Grid className={classes.benefitIcon} item sm={4} xs={12}>
-          <FavoriteBorderRoundedIcon fontSize='small' />
+          <FavoriteBorderRoundedIcon color='secondary' fontSize='small' />
         </Grid>
         <Grid className={classes.benefitIcon} item sm={4} xs={12}>
           <AccessTimeRoundedIcon fontSize='small' />

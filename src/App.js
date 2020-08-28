@@ -11,6 +11,7 @@ import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import Account from './pages/Account';
 import Checkout from './pages/Checkout';
 import Home from './pages/Home';
+import Order from './pages/Order';
 // Components
 import Navbar from './components/Navbars/NavBar';
 import NavCart from './components/Navbars/NavCart';
@@ -40,6 +41,9 @@ const App = () => {
             </Route>
             <Route exact path='/checkout'>
               <Checkout />
+            </Route>
+            <Route path='/order'>
+              <Order />
             </Route>
             <Route path='*'>
               <Redirect to='/' />

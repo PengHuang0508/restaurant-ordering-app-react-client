@@ -9,6 +9,7 @@ import {
   SET_UNAUTHENTICATED,
   SET_USER,
   SET_ANONYMOUS,
+  SET_CART_PAYMENT_INFORMATION,
 } from '../types';
 
 // Helper functions
@@ -30,6 +31,13 @@ export const getGuestData = () => (dispatch) => {
     .get('/guest')
     .then((res) => {
       dispatch({ type: SET_USER, payload: res.data });
+      dispatch({
+        type: SET_CART_PAYMENT_INFORMATION,
+        data: {
+          contact: res.data.credentials.contact,
+          paymentMethod: 'inStore-CASH',
+        },
+      });
       dispatch({ type: LOADING_UI_SUCCESS });
     })
     .catch((err) =>

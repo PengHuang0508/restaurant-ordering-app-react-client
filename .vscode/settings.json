@@ -5,6 +5,7 @@
     "Helvetica",
     "Neue",
     "Reacto",
+    "WECHATPAY",
     "appbar",
     "clsx",
     "drawer",
@@ -13,5 +14,6 @@
     "pome'lona",
     "swipeable",
     "swipeable drawer"
-  ]
+  ],
+  "python.pythonPath": "C:\\Python38\\python.exe"
 }

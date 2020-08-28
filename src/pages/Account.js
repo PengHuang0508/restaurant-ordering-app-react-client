@@ -204,7 +204,7 @@ const Account = () => {
           size='large'
           variant='outlined'
         >
-          Continue Anonymously
+          Continue as Guest
         </Button>
       </Paper>
     </div>
