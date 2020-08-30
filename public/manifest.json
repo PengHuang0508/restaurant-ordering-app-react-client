@@ -1,6 +1,6 @@
 {
-  "short_name": "Reacto Guest",
-  "name": "Reacto App Guest Portal",
+  "short_name": "reacto",
+  "name": "Reacto Client",
   "icons": [
     {
       "src": "logo.png",
