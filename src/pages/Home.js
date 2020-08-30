@@ -8,12 +8,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 // Components
-import MenuCard from '../components/Menu/MenuCard';
+import Menu from '../components/Menu/Menu';
 // Files
 import headerBg from '../images/homeHeaderBackground.jpg';
 
 const useStyles = makeStyles((theme) => ({
-  headerContainer: {
+  homeHeaderContainer: {
     backgroundColor:
       theme.palette.type === 'dark'
         ? theme.palette.grey[900]
@@ -51,26 +51,26 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <div className={classes.headerContainer}>
-        <Container maxWidth='sm'>
-          <Typography
-            className={classes.homeTitle}
-            variant='h3'
-            align='center'
-            gutterBottom
-          >
-            Welcome to Pome'Lona
-          </Typography>
-          <Typography
-            className={classes.homeSubtitle}
-            variant='subtitle1'
-            align='center'
-          >
-            An oasis of pleasure.
-          </Typography>
-        </Container>
-      </div>
-      <MenuCard />
+      <Container className={classes.homeHeaderContainer}>
+        <Typography
+          align='center'
+          className={classes.homeTitle}
+          component='h1'
+          gutterBottom
+          variant='h3'
+        >
+          Welcome to
+          <span> Pome'Lona</span>
+        </Typography>
+        <Typography
+          align='center'
+          className={classes.homeSubtitle}
+          variant='subtitle1'
+        >
+          An oasis of pleasure.
+        </Typography>
+      </Container>
+      <Menu />
     </React.Fragment>
   );
 };

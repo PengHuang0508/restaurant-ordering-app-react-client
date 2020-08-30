@@ -1,6 +1,11 @@
 {
+  "homepage": "https://github.com/PengHuang0508/restaurant-ordering-app-react-client",
   "name": "reacto-guest",
-  "version": "0.1.0",
+  "description": "an online ordering application for restaurants",
+  "version": "1.0.1",
+  "engines": {
+    "node": "12.x"
+  },
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.3",
@@ -23,7 +28,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,5 +47,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://us-central1-reacto-9f2d5.cloudfunctions.net/api"
+  "proxy": "https://us-central1-reacto-9f2d5.cloudfunctions.net/api",
+  "devDependencies": {
+    "gh-pages": "^3.1.0"
+  }
 }
