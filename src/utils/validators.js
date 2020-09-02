@@ -24,9 +24,8 @@ const isEmail = (email) => {
 /////
 // Order routes
 /////
+let errors = {};
 exports.validateOrderData = (data) => {
-  let errors = {};
-
   if (isEmptyString(data.senderId))
     errors.senderId = 'Cannot verify the sender';
   if (isEmptyObject(data.contact)) errors.contact = 'Must not be empty';
@@ -38,8 +37,6 @@ exports.validateOrderData = (data) => {
   };
 };
 exports.validateDineInOrderData = (data) => {
-  let errors = {};
-
   if (isEmptyString(data.table)) errors.table = 'Must not be empty';
   if (isEmptyArray(data.itemList)) errors.itemList = 'Must not be empty';
 
@@ -50,8 +47,6 @@ exports.validateDineInOrderData = (data) => {
 };
 
 exports.validateContactData = (data) => {
-  let errors = {};
-
   if (isEmptyString(data.firstName)) errors.firstName = 'Must not be empty';
   if (isEmptyString(data.lastName)) errors.lastName = 'Must not be empty';
   if (!isEmail(data.email)) errors.email = 'Must provide valid email address';
@@ -66,8 +61,6 @@ exports.validateContactData = (data) => {
 // User routes
 /////
 exports.validateSignUpData = (data) => {
-  let errors = {};
-
   if (isEmptyString(data.email) || !isEmail(data.email))
     errors.signUpEmail = 'Must provide valid email address';
   if (isEmptyString(data.password)) errors.signUpPassword = 'Must not be empty';
@@ -85,8 +78,6 @@ exports.validateSignUpData = (data) => {
 };
 
 exports.validateSignInData = (data) => {
-  let errors = {};
-
   if (!isEmail(data.email)) errors.email = 'Must provide valid email address';
   if (isEmptyString(data.password)) errors.password = 'Must not be empty';
 

@@ -1,14 +1,6 @@
 /* Fonts */
-
-/* TODO: DELETE */
-/* 
- @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Grenze+Gotisch&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap'); 
-*/
-
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text&family=Dancing+Script&family=Grenze+Gotisch&family=Playfair+Display&family=Indie+Flower&display=swap');
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

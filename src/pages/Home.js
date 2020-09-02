@@ -13,6 +13,12 @@ import Menu from '../components/Menu/Menu';
 import headerBg from '../images/homeHeaderBackground.jpg';
 
 const useStyles = makeStyles((theme) => ({
+  homepage: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${240}px)`,
+      marginLeft: 240,
+    },
+  },
   homeHeaderContainer: {
     backgroundColor:
       theme.palette.type === 'dark'
@@ -50,8 +56,8 @@ const Home = () => {
   }, [dispatch, table, orderId]);
 
   return (
-    <React.Fragment>
-      <Container className={classes.homeHeaderContainer}>
+    <div className={classes.homepage}>
+      <Container className={classes.homeHeaderContainer} maxWidth={false}>
         <Typography
           align='center'
           className={classes.homeTitle}
@@ -71,7 +77,7 @@ const Home = () => {
         </Typography>
       </Container>
       <Menu />
-    </React.Fragment>
+    </div>
   );
 };
 

@@ -1,11 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  addToOrder,
-  getDineInOrder,
-  sendDineInOrder,
-  sendOrder,
-} from '../redux/actions/orderActions';
+import { sendDineInOrder, sendOrder } from '../redux/actions/orderActions';
 // MUI
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';

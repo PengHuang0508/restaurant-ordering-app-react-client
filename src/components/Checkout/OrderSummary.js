@@ -94,13 +94,13 @@ const OrderSummary = () => {
         <ListItem>
           <ListItemText
             primary={
-              <div>
+              <React.Fragment>
                 <Typography display='inline'>GST </Typography>
                 <Typography
                   color='textSecondary'
                   display='inline'
                 >{`(${parseInt(taxRate.GST * 100, 10)}%):`}</Typography>
-              </div>
+              </React.Fragment>
             }
           />
           <Typography variant='subtitle1'>${GST.toFixed(2)}</Typography>

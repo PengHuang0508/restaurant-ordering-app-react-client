@@ -169,7 +169,7 @@ const Account = () => {
             <Avatar className={classes.avatar}>
               <AccountCircleRoundedIcon />
             </Avatar>
-            <div>
+            <React.Fragment>
               <StyledTabs
                 aria-label='styled tabs'
                 onChange={handleSwitchTab}
@@ -179,7 +179,7 @@ const Account = () => {
                 <StyledTab label='Create new account' />
               </StyledTabs>
               <Typography className={classes.padding} />
-            </div>
+            </React.Fragment>
           </div>
 
           {isNewUser ? <SignUp /> : <SignIn />}

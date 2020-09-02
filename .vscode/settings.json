@@ -10,7 +10,9 @@
     "clsx",
     "drawer",
     "haspopup",
+    "mixins",
     "navbars",
+    "notistack",
     "pome'lona",
     "swipeable",
     "swipeable drawer"

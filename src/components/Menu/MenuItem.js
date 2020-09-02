@@ -3,6 +3,7 @@ import clsx from 'clsx';
 // Redux
 import { useDispatch } from 'react-redux';
 import { addCartItem } from '../../redux/actions/orderActions';
+import { enqueueSnackbar } from '../../redux/actions/snackbarActions';
 // MUI
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -11,7 +12,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import Collapse from '@material-ui/core/Collapse';
-import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -24,25 +24,21 @@ import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 
 const useStyles = makeStyles((theme) => ({
   itemCard: {
+    backgroundColor: 'rgb(240,235,230)',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
+    marginBottom: theme.spacing(5),
   },
-  itemCardBackground: {},
   itemCardMedia: {
     height: 200,
     margin: '0 auto',
-    width: 200,
-  },
-  itemCardHeader: {
-    padding: theme.spacing(0, 2),
-  },
-  itemCardDescription: {
-    paddingTop: theme.spacing(1),
+    width: '100%',
   },
   itemCardAction: {
-    padding: theme.spacing(2),
+    backgroundColor: 'rgb(225,220,215)',
     marginTop: 'auto',
+    padding: theme.spacing(2),
   },
   itemCardActionButton: {
     margin: theme.spacing(0, 1),
@@ -59,13 +55,11 @@ const useStyles = makeStyles((theme) => ({
   },
   itemCardCustomize: {
     alignItems: 'flex-start',
+    backgroundColor: 'rgb(225,220,215)',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
     justifyContent: 'space-around',
-  },
-  itemInstruction: {
-    width: '100%',
   },
   itemCardCustomizeButton: {
     alignItems: 'center',
@@ -74,11 +68,6 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
 }));
-
-// TODO: add anchors
-// TODO: for mobile, top right corner show last category(anchor for quick scroll)
-// TODO: add snack bars (after add to cart)
-// TODO: clicked away listener?
 
 const MenuItem = (props) => {
   const {
@@ -106,104 +95,104 @@ const MenuItem = (props) => {
   };
   const handleAddToCart = () => {
     dispatch(addCartItem(itemToBeAdded));
+    dispatch(
+      enqueueSnackbar({
+        message: 'Added to the cart.',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        },
+      })
+    );
     setExpanded(false);
     setItemToBeAdded(initialState);
   };
 
-  return (
-    <Grid item xs={12} sm={6} md={4}>
-      <Card className={classes.itemCard}>
-        <CardMedia
-          className={classes.itemCardMedia}
-          image={thumbnailUrl}
-          title={name}
-        />
-        <CardHeader
-          className={clsx(classes.itemCardHeader, classes.itemCardBackground)}
-          title={name}
-          subheader={`$${price}`}
-        />
+  const cardActionButtons = (
+    <React.Fragment>
+      <Button
+        aria-expanded={expanded}
+        aria-label='add to cart'
+        className={classes.itemCardActionButton}
+        color={expanded ? 'secondary' : 'primary'}
+        endIcon={
+          <ExpandLessRoundedIcon
+            className={clsx(classes.expandIcon, {
+              [classes.expandIconOpen]: expanded,
+            })}
+          />
+        }
+        onClick={handleExpandClick}
+        variant='contained'
+      >
+        Customize
+      </Button>
+      <Button color='primary' onClick={handleAddToCart} variant='contained'>
+        Add
+      </Button>
+    </React.Fragment>
+  );
 
-        <Collapse in={!expanded} timeout='auto' unmountOnExit>
-          <CardContent
-            className={clsx(
-              classes.itemCardDescription,
-              classes.itemCardBackground
-            )}
+  const instructionTextField = (
+    <CardActions className={classes.itemCardCustomize} disableSpacing>
+      <TextField
+        defaultValue={itemToBeAdded.instruction}
+        fullWidth
+        label='Instructions'
+        multiline
+        rows={5}
+        variant='outlined'
+        onChange={(e) => handleEdit('instructions', e.target.value)}
+        value={itemToBeAdded.instructions}
+      />
+      <div className={classes.itemCardCustomizeButton}>
+        <React.Fragment>
+          <IconButton
+            aria-label='decrease item quantity'
+            onClick={() => {
+              handleEdit('quantity', Math.max(itemToBeAdded.quantity - 1, 1));
+            }}
           >
-            <Typography variant='body2' color='textSecondary' component='p'>
-              {description}
-            </Typography>
-          </CardContent>
-        </Collapse>
-        <CardActions className={classes.itemCardAction} disableSpacing>
-          {isInCart && <ShoppingCartRoundedIcon color='primary' />}
-          <Button
-            aria-expanded={expanded}
-            aria-label='add to cart'
-            className={classes.itemCardActionButton}
-            color={expanded ? 'secondary' : 'primary'}
-            endIcon={
-              <ExpandLessRoundedIcon
-                className={clsx(classes.expandIcon, {
-                  [classes.expandIconOpen]: expanded,
-                })}
-              />
-            }
-            onClick={handleExpandClick}
-            variant='contained'
+            <RemoveRoundedIcon />
+          </IconButton>
+          <Typography variant='inherit'>{itemToBeAdded.quantity}</Typography>
+          <IconButton
+            aria-label='increase item quantity'
+            onClick={() => {
+              handleEdit('quantity', itemToBeAdded.quantity + 1);
+            }}
           >
-            Customize
-          </Button>
-          <Button color='primary' onClick={handleAddToCart} variant='contained'>
-            Add
-          </Button>
-        </CardActions>
-        <Collapse in={expanded} timeout='auto' unmountOnExit>
-          <CardActions className={classes.itemCardCustomize} disableSpacing>
-            <TextField
-              defaultValue={itemToBeAdded.instruction}
-              fullWidth
-              label='Instructions'
-              multiline
-              rows={5}
-              variant='outlined'
-              onChange={(e) => handleEdit('instructions', e.target.value)}
-              value={itemToBeAdded.instructions}
-            />
-            <div className={classes.itemCardCustomizeButton}>
-              <div>
-                <IconButton
-                  aria-label='decrease item quantity'
-                  onClick={() => {
-                    handleEdit(
-                      'quantity',
-                      Math.max(itemToBeAdded.quantity - 1, 1)
-                    );
-                  }}
-                >
-                  <RemoveRoundedIcon />
-                </IconButton>
-                <Typography variant='inherit'>
-                  {itemToBeAdded.quantity}
-                </Typography>
-                <IconButton
-                  aria-label='increase item quantity'
-                  onClick={() => {
-                    handleEdit('quantity', itemToBeAdded.quantity + 1);
-                  }}
-                >
-                  <AddRoundedIcon />
-                </IconButton>
-              </div>
-              <Button color='secondary' onClick={handleExpandClick}>
-                Cancel
-              </Button>
-            </div>
-          </CardActions>
-        </Collapse>
-      </Card>
-    </Grid>
+            <AddRoundedIcon />
+          </IconButton>
+        </React.Fragment>
+        <Button color='secondary' onClick={handleExpandClick}>
+          Cancel
+        </Button>
+      </div>
+    </CardActions>
+  );
+
+  return (
+    <Card className={classes.itemCard}>
+      <CardMedia
+        className={classes.itemCardMedia}
+        image={thumbnailUrl}
+        title={name}
+      />
+      <CardHeader title={name} subheader={`$${price}`} />
+      <CardContent>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          {description}
+        </Typography>
+      </CardContent>
+      <CardActions className={classes.itemCardAction} disableSpacing>
+        {isInCart && <ShoppingCartRoundedIcon color='primary' />}
+        {cardActionButtons}
+      </CardActions>
+      <Collapse in={expanded} timeout='auto' unmountOnExit>
+        {instructionTextField}
+      </Collapse>
+    </Card>
   );
 };
 

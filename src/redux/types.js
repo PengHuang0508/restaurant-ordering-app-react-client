@@ -14,6 +14,11 @@ export const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS';
 export const SET_CART_PAYMENT_INFORMATION = 'SET_CART_PAYMENT_INFORMATION';
 export const SET_ORDER = 'SET_ORDER';
 
+// Snackbar types
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+export const ENQUEUE_SNACKBAR = 'ENQUEUE_SNACKBAR';
+export const REMOVE_SNACKBAR = 'REMOVE_SNACKBAR';
+
 // UI reducer types
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const LOADING_UI = 'LOADING_UI';

@@ -16,10 +16,12 @@
     "axios": "^0.19.2",
     "clsx": "^1.1.0",
     "history": "^4.10.1",
+    "notistack": "^1.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
+    "react-router-hash-link": "^2.0.0",
     "react-scripts": "3.4.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
@@ -45,6 +47,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
-  "proxy": "https://us-central1-reacto-9f2d5.cloudfunctions.net/api"
+  "devDependencies": {}
 }

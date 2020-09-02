@@ -31,38 +31,6 @@ const priceCalculation = (subtotal) => {
 const initialState = {
   type: getQueryVariable('type') ? getQueryVariable('type') : 'PICK-UP',
   table: getQueryVariable('table'),
-  // cart: {
-  //   itemList: [
-  //     {
-  //       itemId: 'KsC2JgMm6slql0dtGdm7',
-  //       name: 'Garden Tuna Salad Sandwich',
-  //       price: 9.99,
-  //       thumbnailUrl:
-  //         'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  //       quantity: 1,
-  //       instructions:
-  //         'Excepteur sunt elit sint Lorem commodo. Cupidatat adipisicing qui sunt officia labore dolor fugiat ex anim reprehenderit dolore. Eiusmod incididunt Lorem anim ipsum duis enim laboris id eu tempor. Est laboris dolor magna aute cupidatat occaecat ipsum velit id in et ullamco cillum esse.',
-  //     },
-  //     {
-  //       itemId: 'mi7VEjDMyhjLmbbGa0WT',
-  //       name: 'Bow-Tie Salad with Tuna',
-  //       price: 13.99,
-  //       thumbnailUrl:
-  //         'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-  //       quantity: 1,
-  //       instructions:
-  //         'Commodo minim magna culpa minim qui qui magna adipisicing officia ipsum nostrud.',
-  //     },
-  //   ],
-  //   subtotal: 23.98,
-  //   contact: {
-  //     email: 'a@b.com',
-  //     firstName: 'Paul',
-  //     lastName: 'Kim',
-  //     phoneNumber: '1234567890',
-  //   },
-  //   paymentMethod: 'inStore-CASH',
-  // },
   cart: {
     itemList: [],
     subtotal: 0,
@@ -74,46 +42,12 @@ const initialState = {
     },
     paymentMethod: '',
   },
-  // order: {
-  //   orderId: getQueryVariable('orderId'),
-  //   status: '',
-  //   createdAt: '',
-  //   itemList: [],
-  //   subtotal: 0,
-  // },
   order: {
-    senderId: 'PsKHVS0hPDYapfwyDn7JZ1UreZo2',
-    status: 'OPEN',
-    createdAt: '2020-07-19T00:05:17.869Z',
-    itemList: [
-      {
-        price: 13.99,
-        name: 'Bow-Tie Salad with Tuna',
-        quantity: 1,
-        instructions: '',
-        thumbnailUrl:
-          'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-        itemId: 'mi7VEjDMyhjLmbbGa0WT',
-      },
-      {
-        quantity: 3,
-        instructions: '',
-        thumbnailUrl:
-          'https://firebasestorage.googleapis.com/v0/b/reacto-9f2d5.appspot.com/o/default.jpg?alt=media',
-        itemId: 'L52zOZ4AtW6MqSrarNkF',
-        price: 18.99,
-        name: 'Lemony Salmon Piccata',
-      },
-    ],
-    contact: {
-      email: 'bob@ross.com',
-      phoneNumber: '1234567890',
-      firstName: 'Bob',
-      lastName: 'Ross',
-    },
-    orderId: '6ubngtzly7mFpl1uup7u',
-    type: 'TAKE-OUT',
-    subtotal: 70.96,
+    orderId: getQueryVariable('orderId'),
+    status: '',
+    createdAt: '',
+    itemList: [],
+    subtotal: 0,
   },
   subtotal: 0,
   GST: 0,

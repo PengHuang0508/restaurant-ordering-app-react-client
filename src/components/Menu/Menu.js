@@ -5,8 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-// Icons
-import BlurOnRoundedIcon from '@material-ui/icons/BlurOnRounded';
 // Components
 import MenuItem from './MenuItem';
 
@@ -18,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(5, 2),
   },
   menuCategoryTitle: {
-    backgroundColor: '#414141',
-    backgroundImage: 'linear-gradient(315deg, #414141 0%, #000000 74%)',
+    backgroundColor: '#777',
+    backgroundImage: 'linear-gradient(315deg, #777 0%, #5ab496 74%)',
     borderRadius: '7px',
     boxShadow: '3px 5px #ddd',
     color: '#fff',
@@ -41,8 +39,8 @@ const Menu = () => {
       {menu.map((category) => (
         <div
           className={classes.menuCategory}
-          key={`Menu-${category.settings.categoryId}`}
           id={category.settings.categoryId}
+          key={`Menu-${category.settings.categoryId}`}
         >
           <Typography
             className={classes.menuCategoryTitle}
@@ -53,17 +51,24 @@ const Menu = () => {
           </Typography>
           <Grid container spacing={4}>
             {category.itemList.map((item) => (
-              <MenuItem
-                key={`Menu-MenuItem-${item.itemId}`}
-                itemData={item}
-                isInCart={
-                  cartItemList.find(
-                    (cartItem) => cartItem.itemId === item.itemId
-                  )
-                    ? true
-                    : false
-                }
-              />
+              <Grid
+                key={`Menu-ItemCard-${item.itemId}`}
+                item
+                sm={12}
+                md={6}
+                lg={4}
+              >
+                <MenuItem
+                  itemData={item}
+                  isInCart={
+                    cartItemList.find(
+                      (cartItem) => cartItem.itemId === item.itemId
+                    )
+                      ? true
+                      : false
+                  }
+                />
+              </Grid>
             ))}
           </Grid>
         </div>

@@ -87,13 +87,6 @@ const SignIn = () => {
                 fullWidth
                 helperText={errors.email}
                 id='email'
-                // InputProps={{
-                //   startAdornment: (
-                //     <InputAdornment position='start'>
-                //       <EmailRoundedIcon />
-                //     </InputAdornment>
-                //   ),
-                // }}
                 label='Email Address'
                 margin='normal'
                 name='email'
@@ -109,13 +102,6 @@ const SignIn = () => {
                 fullWidth
                 helperText={errors.password}
                 id='password'
-                // InputProps={{
-                //   startAdornment: (
-                //     <InputAdornment position='start'>
-                //       <LockRoundedIcon />
-                //     </InputAdornment>
-                //   ),
-                // }}
                 label='Password'
                 margin='normal'
                 name='password'
@@ -133,7 +119,7 @@ const SignIn = () => {
               )}
             </Grid>
           </Grid>
-          <div>
+          <React.Fragment>
             <FormControlLabel
               className={classes.checkbox}
               control={<Checkbox value='remember' color='primary' />}
@@ -150,7 +136,7 @@ const SignIn = () => {
             >
               Sign In
             </Button>
-          </div>
+          </React.Fragment>
         </form>
       </Container>
     </Fade>
