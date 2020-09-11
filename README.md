@@ -4,7 +4,7 @@ Reacto is a web application for processing customer orders for restaurants. This
 
 ## Application
 
-It can process both dine-in and online orders. All information, including menu, orders and user information are stored on Firebase database.
+It can process both dine-in and online orders. All the data, including menu, orders and user information is stored on Firebase database.
 
 ## Live demo
 
