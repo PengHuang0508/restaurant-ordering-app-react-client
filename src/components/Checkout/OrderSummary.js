@@ -19,9 +19,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#ddd',
   },
   sectionTitle: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
     padding: theme.spacing(1),
+
+    color: theme.palette.common.white,
+
+    backgroundColor: theme.palette.common.black,
   },
   itemInformation: {
     maxWidth: '90%',
@@ -32,15 +34,19 @@ const useStyles = makeStyles((theme) => ({
   },
   quantityContainer: {
     minWidth: '2.5rem',
+
     textAlign: 'center',
   },
   quantity: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
     width: '60%',
+
+    color: theme.palette.common.white,
+
+    backgroundColor: theme.palette.common.black,
   },
   price: {
     minWidth: '4rem',
+
     textAlign: 'right',
   },
 }));

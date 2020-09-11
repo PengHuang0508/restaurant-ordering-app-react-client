@@ -51,67 +51,76 @@ const StyledTab = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   accountContainer: {
+    display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    minHeight: '100vh',
+    padding: theme.spacing(6, 0, 3, 0),
+
     backgroundColor:
       theme.palette.type === 'dark'
         ? theme.palette.grey[900]
         : theme.palette.grey[50],
     backgroundImage: `linear-gradient( rgba(0,0,0,0.4), rgba(0, 0, 0, 0.4) ),url(${signInBackground})`,
-    backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
     backgroundSize: 'cover',
+
     color: theme.palette.text.primary,
-    display: 'flex',
-    height: '100%',
-    justifyContent: 'center',
-    minHeight: '100vh',
-    padding: theme.spacing(6, 0, 3, 0),
-    width: '100%',
+
     [theme.breakpoints.down('sm')]: {
-      alignItems: 'center',
       flexDirection: 'column',
+      alignItems: 'center',
       justifyContent: 'flex-start',
     },
   },
   paper: {
-    alignItems: 'center',
-    backgroundImage:
-      ' linear-gradient(to right bottom, #d6e7ff, #ccf2fe, #d0f9f5, #e3fee8, #feffe1)',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     justifyContent: 'space-between',
     padding: theme.spacing(2, 0),
+
+    backgroundImage:
+      ' linear-gradient(to right bottom, #d6e7ff, #ccf2fe, #d0f9f5, #e3fee8, #feffe1)',
   },
   header: {
-    alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     paddingTop: theme.spacing(2),
   },
   avatar: {
-    backgroundColor: theme.colors.primary[3],
     marginBottom: theme.spacing(1),
+
+    backgroundColor: theme.colors.primary[3],
   },
   loadingProgress: {
-    borderRadius: '5px',
-    height: 7,
     width: '100%',
+    height: 7,
+
+    borderRadius: '5px',
   },
   middle: {
-    alignItems: 'center',
-    color: theme.palette.common.white,
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
     justifyContent: 'center',
     padding: theme.spacing(0, 7),
+
+    color: theme.palette.common.white,
+
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'row',
       padding: theme.spacing(5, 0),
     },
   },
   divider: {
-    borderRadius: '15px',
     borderTop: '7rem solid #bbb',
+    borderRadius: '15px',
+
     [theme.breakpoints.down('sm')]: {
       borderLeft: '7rem solid #bbb',
       borderTop: 0,
@@ -119,15 +128,18 @@ const useStyles = makeStyles((theme) => ({
   },
   middleText: {
     padding: theme.spacing(2, 0),
+
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(0, 2),
     },
   },
   altButton: {
     backgroundColor: theme.colors.grey[4],
+
     '&:hover ': {
-      backgroundColor: theme.palette.common.white,
       color: theme.colors.success[0],
+
+      backgroundColor: theme.palette.common.white,
     },
   },
 }));

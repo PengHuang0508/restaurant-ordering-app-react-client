@@ -25,24 +25,28 @@ import { validateSignUpData } from '../../utils/validators';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    background: 'rgba(125,125,125,0.1)',
-    marginTop: theme.spacing(1),
-    paddingBottom: theme.spacing(4),
     paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(4),
+    marginTop: theme.spacing(1),
+
     textAlign: 'right',
+
+    background: 'rgba(125,125,125,0.1)',
   },
   form: {
     width: '100%',
   },
   generalError: {
-    color: 'red',
-    fontSize: 13,
     margin: theme.spacing(1, 0),
+
+    fontSize: 13,
+    color: 'red',
     textAlign: 'center',
   },
   benefitText: {
-    textAlign: 'center',
     margin: theme.spacing(2, 0),
+
+    textAlign: 'center',
   },
   benefit: {
     display: 'flex',

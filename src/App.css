@@ -6,3 +6,17 @@ body {
 button {
   flex-shrink: 0;
 }
+
+@keyframes hoveringEffect {
+  0% {
+    transform: rotate(90deg) translateX(-10%);
+  }
+
+  50% {
+    transform: rotate(90deg) translateX(15%);
+  }
+
+  100% {
+    transform: rotate(90deg) translateX(-10%);
+  }
+}

@@ -22,27 +22,29 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   container: {
+    display: 'flex',
     alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    minHeight: '100vh',
+    padding: theme.spacing(6, 0, 3, 0),
+
     backgroundColor:
       theme.palette.type === 'dark'
         ? theme.palette.grey[900]
         : theme.palette.grey[50],
     backgroundImage: `linear-gradient( rgba(0,0,0,0.4), rgba(0, 0, 0, 0.4) ),url(${checkoutBackground})`,
-    backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
     backgroundSize: 'cover',
-    display: 'flex',
-    height: '100%',
-    minHeight: '100vh',
-    padding: theme.spacing(6, 0, 3, 0),
-    width: '100%',
   },
   layout: {
-    backgroundColor: 'rgba(255,255,255,0.5)',
     display: 'flex',
     justifyContent: 'center',
-    padding: theme.spacing(0, 5),
     width: '100%',
+    padding: theme.spacing(0, 5),
+
+    backgroundColor: 'rgba(255,255,255,0.5)',
 
     [theme.breakpoints.down('sm')]: {
       padding: 0,
@@ -61,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
   stepper: {
-    padding: theme.spacing(3, 0, 5, 0),
     width: '100%',
+    padding: theme.spacing(3, 0, 5, 0),
   },
   buttons: {
     display: 'flex',

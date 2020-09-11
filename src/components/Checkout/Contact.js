@@ -23,10 +23,12 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0, 4, 0),
   },
   sectionTitle: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    marginBottom: theme.spacing(2),
     padding: theme.spacing(1),
+    marginBottom: theme.spacing(2),
+
+    color: theme.palette.common.white,
+
+    backgroundColor: theme.palette.common.black,
   },
   type: {
     width: '100%',
@@ -44,8 +46,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   optionsTitle: {
-    color: theme.palette.primary,
     marginBottom: theme.spacing(1),
+
+    color: theme.palette.primary,
   },
 }));
 
@@ -65,7 +68,6 @@ const Contact = () => {
   };
   const { inputs: userInputs, bind: bindUserInputs } = useInputs(initialState);
   const [newPaymentMethod, setPaymentMethod] = useState(paymentMethod);
-  // TODO:  Prevent placing order without completing the info; Only able to proceed when there is no errors. Maybe use errors from reducer
   const [errors, setErrors] = useState({});
 
   useEffect(() => {

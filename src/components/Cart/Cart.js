@@ -20,7 +20,6 @@ import { makeStyles } from '@material-ui/core/styles';
 // Icon
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
-import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 // Components
 import CartList from './CartList';
 // File
@@ -32,50 +31,57 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white,
   },
   appBar: {
-    bottom: 0,
     top: 'auto',
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${240}px)`,
-      marginLeft: 240,
-    },
+    bottom: 0,
+
+    width: '10%',
+    minWidth: '215px',
+
+    borderRadius: '15px 0 0 0',
   },
   appBarPrice: {
     marginLeft: 'auto',
+    marginRight: '5px',
   },
   cart: {
     display: 'flex',
     flexDirection: 'column',
+    width: '100%',
     maxHeight: '80%',
     overflow: 'auto',
-    width: '100%',
   },
   cartHeader: {
-    alignItems: 'center',
-    backgroundColor: theme.palette.secondary.dark,
-    color: theme.palette.common.white,
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
     minHeight: '3rem',
     padding: theme.spacing(0, 2, 0, 4),
     marginBottom: -1,
+
+    color: theme.palette.common.white,
+
+    backgroundColor: theme.palette.secondary.dark,
   },
   cartFooter: {
-    backgroundColor: '#f1f1f1',
     display: 'flex',
     flexShrink: 0,
     justifyContent: 'center',
     padding: theme.spacing(2),
+
+    backgroundColor: '#f1f1f1',
   },
   cartFooterImage: {
-    backgroundImage: `url(${carouselImg1})`,
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
     flexGrow: 5,
+
+    backgroundImage: `url(${carouselImg1})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
   },
   cartFooterSummary: {
-    flexGrow: 1,
     flexShrink: 0,
+    flexGrow: 1,
     minWidth: '10rem',
+
     textAlign: 'right',
   },
   cartFooterButton: {
@@ -137,9 +143,6 @@ const Cart = () => {
   return (
     <AppBar className={classes.appBar} color='secondary' position='fixed'>
       <Toolbar>
-        <IconButton className={classes.button} edge='start'>
-          <ShoppingCartRoundedIcon />
-        </IconButton>
         <Typography className={classes.appBarPrice} variant='subtitle1'>
           Subtotal: ${subtotal.toFixed(2)}
         </Typography>

@@ -1,126 +1,185 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import { useSelector } from 'react-redux';
 // MUI
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import { makeStyles } from '@material-ui/core/styles';
 // Icons
 import BlurOnRoundedIcon from '@material-ui/icons/BlurOnRounded';
-
-const drawerWidth = 240;
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
+import MenuIcon from '@material-ui/icons/Menu';
+// Hooks
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 const useStyles = makeStyles((theme) => ({
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
+  drawerButton: {
+    position: 'fixed',
+    top: '50%',
+    left: '0',
+    zIndex: 1101,
+
+    padding: theme.spacing(2),
+
+    fontSize: '2em',
+    color: '#fff',
+
+    backgroundColor: 'rgba(0,0,0,0.75)',
+    borderRadius: '0 5px 5px 0',
+
+    transform: 'translate(0, 40%)',
+
+    '&:hover': {
+      backgroundColor: '#000',
+    },
+
+    [theme.breakpoints.down('xs')]: {
+      padding: 0,
+
+      borderRadius: '5px 5px 0 0',
+
+      transform: 'rotate(90deg) translate(0, 90%)',
     },
   },
-  drawerPaper: {
-    width: drawerWidth,
+  menuIcon: {
+    transform: 'rotate(90deg) translate(0, 90%)',
   },
-  // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+  menuDrawer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: 250,
+    height: '100%',
+    padding: 0,
+  },
   drawerTitle: {
-    fontWeight: '700',
+    fontWeight: 'bold',
     color: theme.colors.rose[2],
   },
   drawerTitleIcon: {
     color: theme.colors.rose[2],
   },
-  drawerLink: {
+  loader: {
+    margin: '30px 0 0 90px',
+  },
+  drawerCategories: {
+    flex: '1 0 auto',
+  },
+  drawerCategory: {
     textDecoration: 'none',
   },
-  drawerLinkText: {
+  drawerCategoryText: {
+    paddingLeft: theme.spacing(1),
+
     fontWeight: '700',
     color: theme.colors.grey[2],
   },
+  drawerFooter: {
+    padding: theme.spacing(2, 0),
+  },
+  drawerFooterExitIcon: {
+    marginLeft: 'auto',
+
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
 }));
-const MenuDrawer = (props) => {
-  const { window, openDrawer, handleDrawerToggle } = props;
+const MenuDrawer = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const { menu } = useSelector((state) => ({
+  const { loading, menu } = useSelector((state) => ({
+    loading: state.menu.loading,
     menu: state.menu.menu,
   }));
+  const [open, setOpen] = useState(false);
+  const windowSize = useWindowSize();
+  const isSmallViewport = windowSize.width < 600;
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  const toggleDrawer = (event, isOpen) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setOpen(isOpen);
+  };
 
-  const drawerContent = (
-    <React.Fragment>
-      <div className={classes.toolbar} />
+  const menuCategoryList = () => (
+    <List
+      className={classes.menuDrawer}
+      onClick={(e) => toggleDrawer(e, false)}
+      onKeyDown={(e) => toggleDrawer(e, false)}
+    >
+      <ListItem className={classes.drawerTitle}>
+        <ListItemIcon className={classes.drawerTitleIcon}>
+          <BlurOnRoundedIcon />
+        </ListItemIcon>
+        <ListItemText
+          primary='MENU'
+          primaryTypographyProps={{ variant: 'h5', component: 'h2' }}
+        />
+      </ListItem>
       <Divider />
-      <List>
-        <ListItem className={classes.drawerTitle}>
-          <ListItemIcon className={classes.drawerTitleIcon}>
-            <BlurOnRoundedIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary='MENU'
-            primaryTypographyProps={{ variant: 'h5', component: 'h2' }}
-          />
-        </ListItem>
-        <Divider />
+      <div className={classes.drawerCategories}>
+        <ListSubheader>Categories</ListSubheader>
+        {loading && <CircularProgress className={classes.loader} />}
         {menu.map((category) => (
           <Link
             key={`MenuDrawer-${category.settings.categoryId}`}
-            className={classes.drawerLink}
+            className={classes.drawerCategory}
             to={`#${category.settings.categoryId}`}
             smooth
           >
             <ListItem button>
               <ListItemText
-                className={classes.drawerLinkText}
+                className={classes.drawerCategoryText}
                 primary={category.settings.name}
                 primaryTypographyProps={{ variant: 'h6', component: 'h3' }}
               />
             </ListItem>
           </Link>
         ))}
-      </List>
-    </React.Fragment>
+      </div>
+
+      <Divider />
+      <ListItem className={classes.drawerFooter}>
+        <ListItemIcon
+          className={classes.drawerFooterExitIcon}
+          onClick={(e) => toggleDrawer(e, false)}
+        >
+          <ExitToAppRoundedIcon />
+        </ListItemIcon>
+      </ListItem>
+    </List>
   );
 
-  // TODO: Add expand cart icon
-
   return (
-    <nav>
-      <Hidden smUp implementation='css'>
-        <Drawer
-          container={container}
-          variant='temporary'
-          anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-          open={openDrawer}
-          onClose={handleDrawerToggle}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-        >
-          {drawerContent}
-        </Drawer>
-      </Hidden>
-      <Hidden xsDown implementation='css'>
-        <Drawer
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          variant='permanent'
-          open
-        >
-          {drawerContent}
-        </Drawer>
-      </Hidden>
-    </nav>
+    <React.Fragment>
+      <Button
+        className={classes.drawerButton}
+        onClick={(e) => toggleDrawer(e, true)}
+        aria-label='open drawer'
+      >
+        {isSmallViewport ? <MenuIcon /> : <MenuBookRoundedIcon />}
+      </Button>
+
+      <Drawer
+        open={open}
+        onClose={(e) => toggleDrawer(e, false)}
+        disableScrollLock
+      >
+        {menuCategoryList()}
+      </Drawer>
+    </React.Fragment>
   );
 };
 

@@ -15,24 +15,25 @@ import accountMenuBackground from '../../images/accountMenuBackground.jpg';
 
 const useStyles = makeStyles((theme) => ({
   accountMenu: {
+    display: 'flex',
+    flexDirection: 'column',
     alignContent: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    minWidth: '20rem',
+    maxWidth: '25rem',
+    minHeight: '15rem',
+    height: '100%',
+    paddingBottom: theme.spacing(2),
+
     backgroundColor:
       theme.palette.type === 'dark'
         ? theme.palette.grey[900]
         : theme.palette.grey[50],
     backgroundImage: `linear-gradient( rgba(0,0,0,0.7), rgba(0, 0, 0, 0.4) ),url(${accountMenuBackground})`,
-    backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
     backgroundSize: 'cover',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    justifyContent: 'space-between',
-    maxWidth: '25rem',
-    minHeight: '15rem',
-    minWidth: '20rem',
-    paddingBottom: theme.spacing(2),
-    width: '100%',
 
     [theme.breakpoints.down('xs')]: {
       background: theme.palette.background.paper,
@@ -43,18 +44,21 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   arrowDown: {
-    borderLeft: '10px solid transparent',
-    borderRight: '10px solid transparent',
-    borderTop: '10px solid rgb(115, 205, 185)',
+    width: 0,
     height: 0,
     marginLeft: 'auto',
     marginRight: '0.9rem',
-    width: 0,
+
+    borderTop: '10px solid rgb(115, 205, 185)',
+    borderRight: '10px solid transparent',
+    borderLeft: '10px solid transparent',
   },
   benefitContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     padding: theme.spacing(3, 2),
+
     textAlign: 'center',
+
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
 
     [theme.breakpoints.down('xs')]: {
       padding: theme.spacing(2, 3, 0, 3),
@@ -76,8 +80,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   button: {
-    height: '100%',
     width: '90%',
+    height: '100%',
 
     [theme.breakpoints.down('xs')]: {
       height: 'auto',

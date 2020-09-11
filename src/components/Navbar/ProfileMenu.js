@@ -36,31 +36,34 @@ import profileMenuBackground from '../../images/profileMenuBackground.jpg';
 
 const useStyles = makeStyles((theme) => ({
   loader: {
-    alignItems: 'center',
-    backgroundColor: theme.colors.grey[8],
     display: 'flex',
-    height: '100%',
+    alignItems: 'center',
     justifyContent: 'center',
-    minWidth: '20rem',
     width: '100%',
+    minWidth: '20rem',
+    height: '100%',
+
+    backgroundColor: theme.colors.grey[8],
   },
   profileMenu: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    minWidth: '20rem',
+    height: '100%',
+    minHeight: '100%',
+    overflow: 'auto',
+
+    color: theme.palette.common.white,
+
     backgroundColor:
       theme.palette.type === 'dark'
         ? theme.palette.grey[900]
         : theme.palette.grey[50],
     backgroundImage: `linear-gradient( rgba(0,0,0,0.75), rgba(0, 0, 0, 0.75) ),url(${profileMenuBackground})`,
-    backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
     backgroundSize: 'cover',
-    color: theme.palette.common.white,
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    minHeight: '100%',
-    minWidth: '20rem',
-    overflow: 'auto',
-    width: '100%',
 
     [theme.breakpoints.down('xs')]: {
       height: '100vh',
@@ -71,55 +74,63 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   headerBanner: {
-    alignItems: 'center',
-    color: theme.palette.common.white,
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
     padding: theme.spacing(1, 2, 1, 3),
+
+    color: theme.palette.common.white,
   },
   closeButton: {
     color: theme.palette.common.white,
   },
   headerContent: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
     padding: theme.spacing(1, 2, 3, 2),
+
     textAlign: 'center',
+
+    backgroundColor: 'rgba(255,255,255,0.1)',
   },
   welcomeMessage: {
     fontFamily: 'Crimson Text, serif',
   },
   userHandle: {
-    fontFamily: 'Grenze Gotisch, Segoe UI, Roboto',
     margin: theme.spacing(2),
+
+    fontFamily: 'Grenze Gotisch, Segoe UI, Roboto',
   },
   icon: {
     color: theme.palette.common.white,
   },
   list: {
-    flexGrow: 2,
     flexShrink: 0,
+    flexGrow: 2,
   },
   profileContent: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.75)',
-    color: theme.palette.common.black,
     display: 'flex',
+    alignItems: 'center',
     padding: theme.spacing(1.5, 4),
+
+    color: theme.palette.common.black,
+
+    backgroundColor: 'rgba(255,255,255,0.75)',
   },
   profileContentIcon: {
     margin: theme.spacing(0.5, 2, 0.5, 0),
   },
   profileEdit: {
-    alignItems: 'center',
     display: 'flex',
     flexDirection: 'row-reverse',
+    alignItems: 'center',
     padding: theme.spacing(1),
   },
   notFound: {
-    backgroundColor: 'rgba(255,255,255,0.75)',
-    color: theme.palette.text.primary,
     padding: theme.spacing(2, 0),
+
+    color: theme.palette.text.primary,
     textAlign: 'center',
+
+    backgroundColor: 'rgba(255,255,255,0.75)',
   },
   orderHistory: {
     backgroundColor: 'rgba(255,255,255,0.75)',
@@ -129,11 +140,13 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   button: {
+    width: '75%',
+
+    color: theme.palette.common.black,
+
     backgroundColor: 'rgba(255,255,255,0.75)',
     border: '1px solid',
     borderColor: theme.palette.common.white,
-    color: theme.palette.common.black,
-    width: '75%',
 
     '&:hover': {
       color: theme.palette.common.white,

@@ -23,41 +23,47 @@ import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 
 const useStyles = makeStyles((theme) => ({
   orderItemList: {
-    backgroundColor: '#f5f5f5',
     maxHeight: '50rem',
     overflow: 'auto',
   },
   cartItemList: {
+    minHeight: '5rem',
+    overflow: 'auto',
+
     '& li:nth-child(odd)': {
       backgroundColor: '#f5f5f5',
     },
-    minHeight: '5rem',
-    overflow: 'auto',
   },
   orderTitle: {
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.common.white,
     padding: theme.spacing(2, 0, 2, 4),
+
+    color: theme.palette.common.white,
+
+    backgroundColor: theme.palette.secondary.main,
   },
   cartTitle: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
     padding: theme.spacing(2, 0, 2, 4),
+
+    color: theme.palette.common.white,
+
+    backgroundColor: theme.palette.primary.main,
   },
   cartEmpty: {
-    backgroundColor: '#f5f5f5',
     padding: theme.spacing(2, 0, 2, 4),
+
+    backgroundColor: '#f5f5f5',
   },
   cartItemListItem: {
+    display: 'flex',
+    alignItems: 'stretch',
+    minHeight: '7rem',
+    padding: theme.spacing(2, 3, 0, 2),
+
     '& > *': {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-around',
     },
-    alignItems: 'stretch',
-    display: 'flex',
-    minHeight: '7rem',
-    padding: theme.spacing(2, 3, 0, 2),
   },
   cartItemListHeader: {
     alignItems: 'center',
@@ -70,8 +76,8 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
   },
   cartItemListFooter: {
-    alignItems: 'flex-end',
     flexShrink: 0,
+    alignItems: 'flex-end',
     marginLeft: 'auto',
   },
   cartItemListFooterPrice: {
@@ -81,14 +87,16 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       padding: theme.spacing(0.5),
     },
-    alignItems: 'center',
+
     display: 'flex',
+    alignItems: 'center',
   },
   cartItemListFooterQuantity: {
     paddingRight: theme.spacing(1),
   },
   cartSubtotal: {
     padding: theme.spacing(2, 4, 2, 0),
+
     textAlign: 'right',
   },
 }));

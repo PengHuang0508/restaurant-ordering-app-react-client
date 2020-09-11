@@ -33,41 +33,46 @@ const useStyles = makeStyles((theme) => ({
         ? theme.palette.grey[900]
         : theme.palette.grey[50],
     backgroundImage: `linear-gradient( rgba(0,0,0,0.75), rgba(0, 0, 0, 0.75) ),url(${profileMenuBackground})`,
-    backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
     backgroundSize: 'cover',
-    color: theme.palette.common.white,
+
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
-    maxWidth: '25rem',
-    minHeight: '100%',
     minWidth: '20rem',
-    overflow: 'auto',
     width: '100%',
+    maxWidth: '25rem',
+    height: '100%',
+    minHeight: '100%',
+    overflow: 'auto',
+
+    color: theme.palette.common.white,
 
     [theme.breakpoints.down('xs')]: {
-      height: '100vh',
       width: '100vw',
+      height: '100vh',
     },
   },
   header: {
     marginBottom: theme.spacing(1),
   },
   headerBanner: {
-    alignItems: 'center',
-    color: theme.palette.common.white,
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
     padding: theme.spacing(1, 2, 1, 3),
+
+    color: theme.palette.common.white,
   },
   closeButton: {
     color: theme.palette.common.white,
   },
   headerContent: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
     padding: theme.spacing(1, 2, 3, 2),
+
     textAlign: 'center',
+
+    backgroundColor: 'rgba(255,255,255,0.1)',
   },
   welcomeMessage: {
     fontFamily: 'Crimson Text, serif',
@@ -76,23 +81,27 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white,
   },
   list: {
-    flexGrow: 2,
     flexShrink: 0,
+    flexGrow: 2,
   },
   upgrade: {
     color: theme.palette.text.primary,
+
     backgroundColor: 'rgba(255,255,255,0.5)',
   },
   buttonContainer: {
     margin: theme.spacing(3, 0),
+
     textAlign: 'center',
   },
   button: {
+    width: '75%',
+
+    color: theme.palette.common.black,
+
     backgroundColor: 'rgba(255,255,255,0.75)',
     border: '1px solid',
     borderColor: theme.palette.common.white,
-    color: theme.palette.common.black,
-    width: '75%',
 
     '&:hover': {
       color: theme.palette.common.white,

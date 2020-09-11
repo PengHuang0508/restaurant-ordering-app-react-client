@@ -20,19 +20,22 @@ import { validateSignInData } from '../../utils/validators';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    background: 'rgba(125,125,125,0.1)',
-    marginTop: theme.spacing(1),
-    paddingBottom: theme.spacing(4),
     paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(4),
+    marginTop: theme.spacing(1),
+
     textAlign: 'right',
+
+    background: 'rgba(125,125,125,0.1)',
   },
   form: {
     width: '100%',
   },
   generalError: {
-    color: 'red',
-    fontSize: 13,
     margin: theme.spacing(1, 0),
+
+    fontSize: 13,
+    color: 'red',
     textAlign: 'center',
   },
   checkbox: {

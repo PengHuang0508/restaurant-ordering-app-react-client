@@ -24,21 +24,23 @@ import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 
 const useStyles = makeStyles((theme) => ({
   itemCard: {
-    backgroundColor: 'rgb(240,235,230)',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
     marginBottom: theme.spacing(5),
+
+    backgroundColor: 'rgb(240,235,230)',
   },
   itemCardMedia: {
+    width: '100%',
     height: 200,
     margin: '0 auto',
-    width: '100%',
   },
   itemCardAction: {
-    backgroundColor: 'rgb(225,220,215)',
-    marginTop: 'auto',
     padding: theme.spacing(2),
+    marginTop: 'auto',
+
+    backgroundColor: 'rgb(225,220,215)',
   },
   itemCardActionButton: {
     margin: theme.spacing(0, 1),
@@ -54,16 +56,17 @@ const useStyles = makeStyles((theme) => ({
     transform: 'rotate(180deg)',
   },
   itemCardCustomize: {
-    alignItems: 'flex-start',
-    backgroundColor: 'rgb(225,220,215)',
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
+    alignItems: 'flex-start',
     justifyContent: 'space-around',
+    height: '100%',
+
+    backgroundColor: 'rgb(225,220,215)',
   },
   itemCardCustomizeButton: {
-    alignItems: 'center',
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
   },
