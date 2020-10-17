@@ -1,10 +1,13 @@
 import React from 'react';
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setErrors,
   signUp,
   anonymousUpgrade,
 } from '../../redux/actions/userActions';
+// Hooks
+import { useInputs } from '../../hooks/useInputs';
 // MUI
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -18,8 +21,6 @@ import LockRoundedIcon from '@material-ui/icons/LockRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import AddShoppingCartRoundedIcon from '@material-ui/icons/AddShoppingCartRounded';
 import AccessTimeRoundedIcon from '@material-ui/icons/AccessTimeRounded';
-// Hooks
-import { useInputs } from '../../hooks/useInputs';
 // Validators
 import { validateSignUpData } from '../../utils/validators';
 

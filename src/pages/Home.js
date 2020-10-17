@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getMenu } from '../redux/actions/menuActions';
-// MUI
-import LinearProgress from '@material-ui/core/LinearProgress';
 // Hooks
 import { useWindowSize } from '../hooks/useWindowSize';
+// MUI
+import LinearProgress from '@material-ui/core/LinearProgress';
 // Components
 import Banner from '../components/Banner/Banner';
 import BannerMobile from '../components/Banner/BannerMobile';

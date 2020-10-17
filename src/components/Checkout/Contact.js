@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPaymentInformation } from '../../redux/actions/orderActions';
+// Hooks
+import { useInputs } from '../../hooks/useInputs';
 // MUI
 import Container from '@material-ui/core/Container';
 import FormControl from '@material-ui/core/FormControl';
@@ -12,8 +14,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-// Hooks
-import { useInputs } from '../../hooks/useInputs';
 // Validators
 import { validateContactData } from '../../utils/validators';
 

@@ -63,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === 'dark'
         ? theme.palette.grey[900]
         : theme.palette.grey[50],
-    backgroundImage: `linear-gradient( rgba(0,0,0,0.4), rgba(0, 0, 0, 0.4) ),url(${signInBackground})`,
+    // backgroundImage: `linear-gradient( rgba(0,0,0,0.4), rgba(0, 0, 0, 0.4) ),url(${signInBackground})`,
+    backgroundImage: `url(${signInBackground})`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',

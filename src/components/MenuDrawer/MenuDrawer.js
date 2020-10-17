@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { HashLink as Link } from 'react-router-hash-link';
 import { useSelector } from 'react-redux';
+// Hooks
+import { useWindowSize } from '../../hooks/useWindowSize';
 // MUI
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -17,8 +19,6 @@ import BlurOnRoundedIcon from '@material-ui/icons/BlurOnRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import MenuIcon from '@material-ui/icons/Menu';
-// Hooks
-import { useWindowSize } from '../../hooks/useWindowSize';
 
 const useStyles = makeStyles((theme) => ({
   drawerButton: {
