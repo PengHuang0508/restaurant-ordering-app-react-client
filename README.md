@@ -1,16 +1,29 @@
-# Reacto
+# Pome'Lona
 
-Reacto is a web application for processing customer orders for restaurants. This repository is the **front-end** part of the project. It is built using React (with React Hooks) and Redux. If you are interested in the **back-end** code, please check out the **Extra** section down below.
+For backend documentation, please visit this [repository](https://github.com/PengHuang0508/restaurant-ordering-app-firebase-cloud-functions)
 
-## Application
+Pome'Lona, or Reacto, is a web application designed for restaurants to processes customer orders.
 
-It can process both dine-in and online orders. All the data, including menu, orders and user information is stored on Firebase database.
+# Features
 
-## Live demo
+- Menu is customizable and sync with all devices once updated
+- All users, anonymous or registered) can place and view orders
+- Permission controls for restaurants employees (server, manager and owner)
+- All data are store on Firebase, including user information, menu, and sales reports.
 
-The application demo is hosted on Firebase.
-[Click here](https://reacto-9f2d5.web.app/)
+# Live demo
 
-## Extra
+This demo is hosted on Firebase. [Link here](https://reacto-9f2d5.web.app/)
 
-[Firebase cloud functions repo link](https://github.com/PengHuang0508/restaurant-ordering-app-firebase-cloud-functions)
+# Tech stacks
+
+- React
+- Redux
+- Express
+- Node.js
+- Firebase
+- Material UI
+
+### Todo
+
+- TESTS! More tests
